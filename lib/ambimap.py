@@ -16,14 +16,21 @@ class ambiMap:
 					   [255, 255, 0],
 					   [255, 0, 0]]
 		self.blending = True
+		self.initialOn = False
 
 	def connect(self):
 		self.ambilight.connect()
+		if str.rstrip(self.ambilight.getStatus()) == 'on':
+			self.initialOn = True
+
 		self.ambilight.lock()
 		self.ambilight.turnOn()
 		self.ledIndex = self.ambilight.getCountLeds() - 1
 
 	def disconnect(self):
+		if self.initialOn == False:
+			self.ambilight.turnOff()
+		self.initialOn = False
 		self.ambilight.disconnect()
 
 	def setBlending(self, blend):
