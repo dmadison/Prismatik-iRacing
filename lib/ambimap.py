@@ -1,5 +1,6 @@
 
 import lib.lightpack as lightpack
+import lib.settings as settings
 
 def linear_blend(color1, color2, blendPercent):
 	colorOut = []
@@ -63,10 +64,14 @@ class ambiMap:
 				return self.colors[2]
 
 	def map(self, percent):
-		#self.fillAll(self.getColor(percent))
-		self.fillCenter(percent, self.getColor(percent))
-		#self.fillClockwise(percent, self.getColor(percent))
-		#self.fillCClockwise(percent, self.getColor(percent))
+		if settings.direction == 'all':
+			self.fillAll(self.getColor(percent))
+		elif settings.direction == 'symmetric':
+			self.fillSymmetric(percent, self.getColor(percent))
+		elif settings.direction == 'clockwise':
+			self.fillClockwise(percent, self.getColor(percent))
+		elif settings.direction == 'counter-clockwise':
+			self.fillCClockwise(percent, self.getColor(percent))
 
 	def fillAll(self, color):
 		leds = []
@@ -75,7 +80,7 @@ class ambiMap:
 			leds.append(color)
 		self.ambilight.setFrame(leds)
 
-	def fillCenter(self, percent, color):
+	def fillSymmetric(self, percent, color):
 		led_step = percent * (self.ledIndex / 2)
 		leds = []
 

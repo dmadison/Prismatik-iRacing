@@ -15,6 +15,10 @@ def parseConfig(cfgName):
 			settings.apiVar = config['iRacing']['var']
 
 		settings.framerate = int(config['User Settings']['fps'])
+
+		if config['User Settings']['direction'] in settings.directions:
+			settings.direction = config['User Settings']['direction']
+
 		settings.smoothing = config.getboolean('User Settings', 'color_smoothing')
 	except (KeyError, ValueError):
 		print("Error parsing cfg")
