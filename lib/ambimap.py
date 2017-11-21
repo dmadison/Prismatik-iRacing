@@ -17,7 +17,10 @@ class ambiMap:
 					   [255, 255, 0],
 					   [255, 0, 0]]
 		self.blending = settings.smoothing
+		self.filtering = settings.filtering
 		self.initialOn = False
+
+		self.filteredPercent = 0.0
 
 	def connect(self):
 		self.ambilight.connect()
@@ -60,6 +63,11 @@ class ambiMap:
 				return self.colors[2]
 
 	def map(self, percent):
+		if self.filtering == True:
+			new_bias = 0.35
+			self.filteredPercent = ((1 - new_bias) * self.filteredPercent) + (new_bias * percent)
+			percent = self.filteredPercent
+
 		if self.settings.direction == 'all':
 			self.fillAll(self.getColor(percent))
 		elif self.settings.direction == 'symmetric':

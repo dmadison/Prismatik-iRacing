@@ -17,6 +17,7 @@ class settings:
 		self.framerate = 60
 		self.direction = 'symmetric'
 		self.smoothing = True
+		self.filtering = True
 
 		self.parseConfig(self.cfg)
 
@@ -44,6 +45,7 @@ class settings:
 				self.direction = config['User Settings']['direction']
 
 			self.smoothing = config.getboolean('User Settings', 'color_smoothing')
+			self.filtering = config.getboolean('User Settings', 'data_filtering')
 		except (KeyError, ValueError):
 			print("Error parsing cfg")
 
