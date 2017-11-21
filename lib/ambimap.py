@@ -1,6 +1,5 @@
 
 import lib.lightpack as lightpack
-import lib.settings as settings
 
 def linear_blend(color1, color2, blendPercent):
 	colorOut = []
@@ -11,12 +10,13 @@ def linear_blend(color1, color2, blendPercent):
 	return colorOut
 
 class ambiMap:
-	def __init__(self, _host, _port, _apikey=None):
-		self.ambilight = lightpack.lightpack(_host, _port, None, _apikey)
+	def __init__(self, settings):
+		self.settings = settings
+		self.ambilight = lightpack.lightpack(settings.host, settings.port, None, settings.apiKey)
 		self.colors = [[0, 255, 0],
 					   [255, 255, 0],
 					   [255, 0, 0]]
-		self.blending = True
+		self.blending = settings.smoothing
 		self.initialOn = False
 
 	def connect(self):
@@ -33,10 +33,6 @@ class ambiMap:
 			self.ambilight.turnOff()
 		self.initialOn = False
 		self.ambilight.disconnect()
-
-	def setBlending(self, blend):
-		if type(blend) is bool:
-			self.blending = blend
 
 	def getColor(self, percent):
 		percent_low = 0.1
@@ -64,13 +60,13 @@ class ambiMap:
 				return self.colors[2]
 
 	def map(self, percent):
-		if settings.direction == 'all':
+		if self.settings.direction == 'all':
 			self.fillAll(self.getColor(percent))
-		elif settings.direction == 'symmetric':
+		elif self.settings.direction == 'symmetric':
 			self.fillSymmetric(percent, self.getColor(percent))
-		elif settings.direction == 'clockwise':
+		elif self.settings.direction == 'clockwise':
 			self.fillClockwise(percent, self.getColor(percent))
-		elif settings.direction == 'counter-clockwise':
+		elif self.settings.direction == 'counter-clockwise':
 			self.fillCClockwise(percent, self.getColor(percent))
 
 	def fillAll(self, color):
