@@ -1,5 +1,6 @@
 import configparser
 import lib.settings as settings
+from lib.whitelist import irvar_whitelist as whitelist
 
 def parseConfig(cfgName):
 	config = configparser.ConfigParser()
@@ -10,7 +11,8 @@ def parseConfig(cfgName):
 		settings.port = int(config['Lightpack']['port'])
 		settings.apiKey = config['Lightpack']['key']
 
-		settings.apiVar = config['iRacing']['var']
+		if config['iRacing']['var'] in whitelist:
+			settings.apiVar = config['iRacing']['var']
 
 		settings.framerate = int(config['User Settings']['fps'])
 		settings.smoothing = config.getboolean('User Settings', 'color_smoothing')
