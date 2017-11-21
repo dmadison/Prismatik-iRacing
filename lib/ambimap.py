@@ -19,6 +19,7 @@ class ambiMap:
 		self.blending = settings.smoothing
 		self.filtering = settings.filtering
 		self.initialOn = False
+		self.filtering = settings.filtering
 
 		self.filteredPercent = 0.0
 
@@ -62,11 +63,14 @@ class ambiMap:
 			else:
 				return self.colors[2]
 
+	def low_pass(self, percent):
+		self.filteredPercent = ((1 - self.filtering) * self.filteredPercent) + (self.filtering * percent)
+		return self.filteredPercent
+
 	def map(self, percent):
-		if self.filtering == True:
-			new_bias = 0.35
-			self.filteredPercent = ((1 - new_bias) * self.filteredPercent) + (new_bias * percent)
-			percent = self.filteredPercent
+		percent = self.low_pass(percent)
+		if percent <= 0.025:
+			percent = 0.0
 
 		if self.settings.direction == 'all':
 			self.fillAll(self.getColor(percent))
