@@ -8,6 +8,24 @@ def isFloat(x):
 	except ValueError:
 		return False
 
+def checkColorHex(color):
+	# Check and remove prefixes
+	if color[0:2] == '0x':
+		color = color[2:]
+	elif color[0] == 'x' or color[0] == '#':
+		color = color[1:]
+
+	if len(color) != 6:
+		return
+
+	try:
+		color_rgb = []
+		for i in range(0, 6, 2):
+			color_rgb.append(int(color[i:i + 2], 16))
+		return color_rgb
+	except ValueError:
+		return
+
 class settings:
 	def __init__(self, configfile):
 		self.cfg = configfile + '.ini'
@@ -23,6 +41,7 @@ class settings:
 		# Plugin Settings
 		self.framerate = 60
 		self.direction = 'symmetric'
+		self.colors = [[0, 255, 0], [255, 255, 0], [255, 0, 0]]  # Green, Yellow, Red
 		self.smoothing = True
 		self.filtering = 0.6
 
@@ -54,6 +73,20 @@ class settings:
 		elif filter_in == 'high':
 			self.filtering = 0.2
 
+	def setColors(self, cfg_colors):
+		colors_temp = cfg_colors.split(',')
+
+		try:
+			colors_new = []
+			for color in colors_temp:
+				color_rgb = checkColorHex(str.strip(color))
+				if color_rgb is not None:
+					colors_new.append(color_rgb)
+			if len(colors_new) == len(colors_temp):
+				self.colors = colors_new  # All colors parsed successfully
+		except ValueError:
+			pass
+
 	def parseConfig(self, cfgName):
 		config = configparser.ConfigParser()
 		config.read(cfgName)
@@ -71,6 +104,7 @@ class settings:
 			if self.checkDirections(config['User Settings']['direction']):
 				self.direction = config['User Settings']['direction']
 
+			self.setColors(config['User Settings']['colors'])
 			self.smoothing = config.getboolean('User Settings', 'color_smoothing')
 			self.setFiltering(config['User Settings']['data_filtering'])
 		except (KeyError, ValueError):

@@ -13,9 +13,6 @@ class ambiMap:
 	def __init__(self, settings):
 		self.settings = settings
 		self.ambilight = lightpack.lightpack(settings.host, settings.port, None, settings.apiKey)
-		self.colors = [[0, 255, 0],
-					   [255, 255, 0],
-					   [255, 0, 0]]
 		self.initialOn = False
 
 		self.filteredPercent = 0.0
@@ -45,20 +42,20 @@ class ambiMap:
 
 		if self.settings.smoothing == False:
 			if percent <= percent_low:
-				return self.colors[0]
+				return self.settings.colors[0]
 			elif percent <= percent_mid:
-				return self.colors[1]
+				return self.settings.colors[1]
 			else:
-				return self.colors[2]
+				return self.settings.colors[2]
 		elif self.settings.smoothing == True:
 			if percent <= percent_low:
-				return self.colors[0]
+				return self.settings.colors[0]
 			elif percent <= percent_mid:
-				return linear_blend(self.colors[0], self.colors[1], (percent - percent_low) / (percent_mid - percent_low))
+				return linear_blend(self.settings.colors[0], self.settings.colors[1], (percent - percent_low) / (percent_mid - percent_low))
 			elif percent <= percent_high:
-				return linear_blend(self.colors[1], self.colors[2], (percent - percent_mid) / (percent_high - percent_mid))
+				return linear_blend(self.settings.colors[1], self.settings.colors[2], (percent - percent_mid) / (percent_high - percent_mid))
 			else:
-				return self.colors[2]
+				return self.settings.colors[2]
 
 	def low_pass(self, percent):
 		self.filteredPercent = ((1 - self.settings.filtering) * self.filteredPercent) \
