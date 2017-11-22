@@ -2,7 +2,6 @@
 import irsdk
 import time
 
-import lib.cfghelper as cfghelper
 import lib.settings as settings
 import lib.ambimap as ambimap
 
@@ -22,19 +21,18 @@ def check_iracing():
 		print('irsdk connected')
 
 if __name__ == '__main__':
-	cfghelper.parseConfig('cfg')
+	user_settings = settings.settings('cfg')
 	ir = irsdk.IRSDK()
-	ambilight = ambimap.ambiMap(settings.host, settings.port, settings.apiKey)
-	ambilight.setBlending(settings.smoothing)
+	ambilight = ambimap.ambiMap(user_settings)
 
 	try:
 		while True:
 			check_iracing()
 			if ir_connected:
-				t = ir[settings.apiVar]
+				t = ir[user_settings.apiVar]
 				ambilight.map(t)
-				print(settings.apiVar + ':', t)
-				time.sleep(1 / settings.framerate)
+				print(user_settings.apiVar + ':', t)
+				time.sleep(1 / user_settings.framerate)
 			else:
 				time.sleep(5)
 	except KeyboardInterrupt:
