@@ -33,29 +33,27 @@ class ambiMap:
 		self.ambilight.disconnect()
 
 	def getColor(self, percent):
-		percent_low = 0.1
-		percent_mid = 0.4
-		percent_high = 0.95
-
 		if percent == 0.0:
 			return [0, 0, 0]
 
+		percent_step = 1.0 / len(self.settings.colors)
+		blend_range = percent_step
+
 		if self.settings.smoothing == False:
-			if percent <= percent_low:
-				return self.settings.colors[0]
-			elif percent <= percent_mid:
-				return self.settings.colors[1]
-			else:
-				return self.settings.colors[2]
+			for step, color in enumerate(self.settings.colors):
+				if percent <= (step + 1) * percent_step:
+					return color
 		elif self.settings.smoothing == True:
-			if percent <= percent_low:
-				return self.settings.colors[0]
-			elif percent <= percent_mid:
-				return linear_blend(self.settings.colors[0], self.settings.colors[1], (percent - percent_low) / (percent_mid - percent_low))
-			elif percent <= percent_high:
-				return linear_blend(self.settings.colors[1], self.settings.colors[2], (percent - percent_mid) / (percent_high - percent_mid))
-			else:
-				return self.settings.colors[2]
+			for step in range(len(self.settings.colors) - 1):
+				current_step = (step + 1) * percent_step
+				blend_min = current_step - (blend_range / 2)
+				blend_max = current_step + (blend_range / 2)
+				if percent >= blend_min and percent <= blend_max:
+					blend_percent = (percent - blend_min) / (blend_max - blend_min)
+					return linear_blend(self.settings.colors[step], self.settings.colors[step + 1], blend_percent)
+				elif percent <= current_step:
+					return self.settings.colors[step]
+			return self.settings.colors[len(self.settings.colors) - 1]
 
 	def low_pass(self, percent):
 		self.filteredPercent = ((1 - self.settings.filtering) * self.filteredPercent) \
