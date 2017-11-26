@@ -41,6 +41,28 @@ def check_iracing():
 		ambilight.connect()
 		print('irsdk connected')
 
+def calculateShiftPercentage():
+	if ir['DriverInfo']:
+		rpm_min = ir['DriverInfo']['DriverCarSLFirstRPM']
+		rpm_max = ir['DriverInfo']['DriverCarSLLastRPM']
+		rpm_maxB = ir['DriverInfo']['DriverCarSLBlinkRPM']
+		rpm_max_scale = rpm_max - rpm_min
+
+		rpm_current = ir['RPM']
+
+		if rpm_current >= rpm_maxB:
+			return 1.01
+		elif rpm_current >= rpm_max:
+			return 1.0
+		elif rpm_current <= rpm_min:
+			return 0.0
+		else:
+			rpm_current -= rpm_min
+			shift_percentage = rpm_current / rpm_max_scale
+			return shift_percentage
+
+	return 0.0
+
 if __name__ == '__main__':
 	user_settings = settings.settings('cfg')
 	ir = irsdk.IRSDK()
