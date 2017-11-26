@@ -124,7 +124,9 @@ class settings:
 			if config['iRacing']['var'] in whitelist:
 				self.apiVar = config['iRacing']['var']
 
-			self.framerate = int(config['User Settings']['fps'])
+			framerate = int(config['User Settings']['fps'])
+			if framerate <= 60:
+				self.framerate = framerate
 
 			if self.checkDirections(config['User Settings']['direction']):
 				self.direction = config['User Settings']['direction']
