@@ -23,7 +23,7 @@
 import irsdk
 
 
-class iracer:
+class iRacer:
 	def __init__(self):
 		self.api = irsdk.IRSDK()
 		self.api.startup()
@@ -35,7 +35,7 @@ class iracer:
 			self.api.startup()
 			return False
 
-	def calculateShiftPercentage(self):
+	def sli_percent(self):
 		if self.api['DriverInfo']:
 			rpm_min = self.api['DriverInfo']['DriverCarSLFirstRPM']
 			rpm_max = self.api['DriverInfo']['DriverCarSLLastRPM']

@@ -26,8 +26,8 @@ import lib.settings as settings
 import lib.ambimap as ambimap
 
 if __name__ == '__main__':
-	user_settings = settings.settings('cfg')
-	ambilight = ambimap.ambiMap(user_settings)
+	user_settings = settings.Settings('cfg')
+	ambilight = ambimap.AmbiMap(user_settings)
 
 	try:
 		while True:
