@@ -98,21 +98,24 @@ class ambiMap:
 		if percent <= 0.025:
 			percent = 0.0
 
+		nextframe = []
 		if self.settings.direction == 'all':
-			self.fillAll(self.getColor(percent))
+			nextframe = self.fillAll(self.getColor(percent))
 		elif self.settings.direction == 'symmetric':
-			self.fillSymmetric(percent, self.getColor(percent))
+			nextframe = self.fillSymmetric(percent, self.getColor(percent))
 		elif self.settings.direction == 'clockwise':
-			self.fillClockwise(percent, self.getColor(percent))
+			nextframe = self.fillClockwise(percent, self.getColor(percent))
 		elif self.settings.direction == 'counter-clockwise':
-			self.fillCClockwise(percent, self.getColor(percent))
+			nextframe = self.fillCClockwise(percent, self.getColor(percent))
+
+		self.ambilight.setFrame(nextframe)
 
 	def fillAll(self, color):
 		leds = []
 
 		for led in range(0, self.ledIndex + 1):
 			leds.append(color)
-		self.ambilight.setFrame(leds)
+		return leds
 
 	def fillSymmetric(self, percent, color):
 		led_step = percent * (self.ledIndex / 2)
@@ -123,7 +126,7 @@ class ambiMap:
 				leds.append(color)
 			else:
 				leds.append(self.settings.off_color)
-		self.ambilight.setFrame(leds)
+		return leds
 
 	def fillClockwise(self, percent, color):
 		led_step = (1 - percent) * self.ledIndex
@@ -134,7 +137,7 @@ class ambiMap:
 				leds.append(color)
 			else:
 				leds.append(self.settings.off_color)
-		self.ambilight.setFrame(leds)
+		return leds
 
 	def fillCClockwise(self, percent, color):
 		led_step = percent * (self.ledIndex)
@@ -145,4 +148,4 @@ class ambiMap:
 				leds.append(color)
 			else:
 				leds.append(self.settings.off_color)
-		self.ambilight.setFrame(leds)
+		return leds
