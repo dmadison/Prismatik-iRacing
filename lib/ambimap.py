@@ -37,6 +37,7 @@ class ambiMap:
 		self.initialOn = False
 
 		self.filteredPercent = 0.0
+		self.ir_connected = False
 
 	def connect(self):
 		self.ambilight.connect()
@@ -52,6 +53,17 @@ class ambiMap:
 			self.ambilight.turnOff()
 		self.initialOn = False
 		self.ambilight.disconnect()
+
+	def check_iracing(self):
+		if self.ir_connected and not self.settings.ir.check_connection():
+			self.ir_connected = False
+			self.settings.ir.shutdown()
+			self.disconnect()
+			print('irsdk disconnected')
+		elif not self.ir_connected and self.settings.ir.check_connection():
+			self.ir_connected = True
+			self.connect()
+			print('irsdk connected')
 
 	def getColor(self, percent):
 		if percent == 0.0:

@@ -20,25 +20,39 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import time
+import irsdk
 
-import lib.settings as settings
-import lib.ambimap as ambimap
 
-if __name__ == '__main__':
-	user_settings = settings.settings('cfg')
-	ambilight = ambimap.ambiMap(user_settings)
+class iracer:
+	def __init__(self):
+		self.api = irsdk.IRSDK()
+		self.api.startup()
 
-	try:
-		while True:
-			ambilight.check_iracing()
-			if ambilight.ir_connected:
-				t = user_settings.ir.api[user_settings.apiVar]
-				ambilight.map(t)
-				print(user_settings.apiVar + ':', t)
-				time.sleep(1 / user_settings.framerate)
+	def check_connection(self):
+		if self.api.is_initialized and self.api.is_connected:
+			return True
+		else:
+			self.api.startup()
+			return False
+
+	def calculateShiftPercentage(self):
+		if self.api['DriverInfo']:
+			rpm_min = self.api['DriverInfo']['DriverCarSLFirstRPM']
+			rpm_max = self.api['DriverInfo']['DriverCarSLLastRPM']
+			rpm_maxB = self.api['DriverInfo']['DriverCarSLBlinkRPM']
+			rpm_max_scale = rpm_max - rpm_min
+
+			rpm_current = self.api['RPM']
+
+			if rpm_current >= rpm_maxB:
+				return 1.01
+			elif rpm_current >= rpm_max:
+				return 1.0
+			elif rpm_current <= rpm_min:
+				return 0.0
 			else:
-				time.sleep(5)
-	except KeyboardInterrupt:
-		# press ctrl+c to exit
-		pass
+				rpm_current -= rpm_min
+				shift_percentage = rpm_current / rpm_max_scale
+				return shift_percentage
+
+		return 0.0

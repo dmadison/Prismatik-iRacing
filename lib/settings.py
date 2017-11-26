@@ -21,6 +21,7 @@
 #
 
 import configparser
+import lib.ir_utils as ir_utils
 from lib.whitelist import irvar_whitelist as whitelist
 
 def isFloat(x):
@@ -51,6 +52,7 @@ def checkColorHex(color):
 class settings:
 	def __init__(self, configfile):
 		self.cfg = configfile + '.ini'
+		self.ir = ir_utils.iracer()
 
 		# Prismatik API Settings
 		self.host = '127.0.0.1'
