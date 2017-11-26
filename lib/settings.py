@@ -116,9 +116,9 @@ class settings:
 		config.read(cfgName)
 
 		try:
-			self.host = config['Lightpack']['host']
-			self.port = int(config['Lightpack']['port'])
-			self.apiKey = config['Lightpack']['key']
+			self.host = config['Prismatik']['host']
+			self.port = int(config['Prismatik']['port'])
+			self.apiKey = config['Prismatik']['key']
 
 			if config['iRacing']['var'] in whitelist:
 				self.apiVar = config['iRacing']['var']
