@@ -95,12 +95,14 @@ class AmbiMap:
 	def low_pass(self, percent):
 		self.filtered_percent = ((1 - self.settings.filtering) * self.filtered_percent) \
 								+ (self.settings.filtering * percent)
-		return self.filtered_percent
+
+		if self.filtered_percent <= 0.025:
+			return 0.0
+		else:
+			return self.filtered_percent
 
 	def map(self, percent):
 		percent = self.low_pass(percent)
-		if percent <= 0.025:
-			percent = 0.0
 
 		if percent > 1.0 and self.check_blink():
 			self.fill_empty()
