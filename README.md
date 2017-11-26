@@ -9,7 +9,8 @@ This plugin allows you to visualize data from iRacing with an ambilight.
  $ pip install pyirsdk
 ```
 4. [Download the plugin](../../archive/master.zip) and unzip it. Place the folder into your `Prismatik\Plugins` directory, located in your user folder. Make sure the folder is named "Prismatik-iRacing" and does not have the branch on the end (e.g. "-master").
-5. Open Prismatik and switch to the 'Plugins' page. At the top, click the "reload plugins" button and then click the checkbox to activate the iRacing plugin. If everything is set up properly the plugin status will switch to "(running)".
+5. Open Prismatik. Switch to the 'Experimental' page and click the checkbox to enable the API server. If you have an authorization key set you'll need to add it to the plugin's `cfg.ini` settings file.
+6. Switch to the 'Plugins' page. At the top, click the "reload plugins" button and then click the checkbox to activate the iRacing plugin. If everything is set up properly the plugin status will switch to "(running)".
 
 ## Configuration
 Modify the `cfg.ini` files with your settings. This is where you set the Prismatik API login and the variable to poll from iRacing, as well as the pattern and color information for the ambilight.
