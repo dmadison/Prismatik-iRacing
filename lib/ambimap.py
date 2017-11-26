@@ -20,6 +20,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import time
 import lib.lightpack as lightpack
 
 
@@ -39,6 +40,7 @@ class AmbiMap:
 		self.initial_on = False
 
 		self.filtered_percent = 0.0
+		self.last_blink = time.time()
 		self.ir_connected = False
 
 	def connect(self):
@@ -101,7 +103,9 @@ class AmbiMap:
 			percent = 0.0
 
 		nextframe = []
-		if self.settings.direction == 'all':
+		if percent > 1.0 and self.check_blink():
+			nextframe = self.fill_empty()
+		elif self.settings.direction == 'all':
 			nextframe = self.fill_all(self.get_color(percent))
 		elif self.settings.direction == 'symmetric':
 			nextframe = self.fill_symmetric(percent, self.get_color(percent))
@@ -151,3 +155,20 @@ class AmbiMap:
 			else:
 				leds.append(self.settings.off_color)
 		return leds
+
+	def fill_empty(self):
+		return self.fill_all(self.settings.off_color)
+
+	def check_blink(self):
+		time_now = time.time()
+		blink_period = 0.400
+
+		blink_time = time_now - self.last_blink
+
+		if blink_time >= blink_period:
+			self.last_blink = time_now
+
+		if blink_time >= blink_period / 2:
+			return True  # Lights off
+		else:
+			return False  # Lights on
