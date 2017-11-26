@@ -55,7 +55,7 @@ class ambiMap:
 
 	def getColor(self, percent):
 		if percent == 0.0:
-			return [0, 0, 0]
+			return self.settings.off_color
 
 		percent_step = 1.0 / len(self.settings.colors)
 		blend_range = percent_step
@@ -110,7 +110,7 @@ class ambiMap:
 			if led <= led_step or led >= self.ledIndex - led_step:
 				leds.append(color)
 			else:
-				leds.append([0, 0, 0])
+				leds.append(self.settings.off_color)
 		self.ambilight.setFrame(leds)
 
 	def fillClockwise(self, percent, color):
@@ -121,7 +121,7 @@ class ambiMap:
 			if led >= led_step:
 				leds.append(color)
 			else:
-				leds.append([0, 0, 0])
+				leds.append(self.settings.off_color)
 		self.ambilight.setFrame(leds)
 
 	def fillCClockwise(self, percent, color):
@@ -132,5 +132,5 @@ class ambiMap:
 			if led <= led_step:
 				leds.append(color)
 			else:
-				leds.append([0, 0, 0])
+				leds.append(self.settings.off_color)
 		self.ambilight.setFrame(leds)

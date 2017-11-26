@@ -64,6 +64,7 @@ class settings:
 		self.framerate = 60
 		self.direction = 'symmetric'
 		self.colors = [[0, 255, 0], [255, 255, 0], [255, 0, 0]]  # Green, Yellow, Red
+		self.off_color = [0, 0, 0]
 		self.smoothing = True
 		self.filtering = 0.6
 
@@ -129,6 +130,10 @@ class settings:
 				self.direction = config['User Settings']['direction']
 
 			self.setColors(config['User Settings']['colors'])
+			off_color = checkColorHex(config['User Settings']['off_color'])
+			if off_color is not None:
+				self.off_color = off_color
+
 			self.smoothing = config.getboolean('User Settings', 'color_smoothing')
 			self.setFiltering(config['User Settings']['data_filtering'])
 		except (KeyError, ValueError):
