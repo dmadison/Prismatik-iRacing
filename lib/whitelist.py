@@ -60,8 +60,16 @@ irvar_restricted_whitelist = [
 	'RRwearR',
 ]
 
+irvar_custom_whitelist = [
+	'DriverCarSL',
+	#'DriverCarSLBlinkRPM',
+]
+
 for item in irvar_global_whitelist:
 	irvar_whitelist.append(item)
 
 for item in irvar_restricted_whitelist:
+	irvar_whitelist.append(item)
+
+for item in irvar_custom_whitelist:
 	irvar_whitelist.append(item)

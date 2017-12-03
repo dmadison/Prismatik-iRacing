@@ -38,7 +38,7 @@ if __name__ == '__main__':
 			ir_connection = ir.check_connection()
 
 			if ir_connection == True:
-				t = low_pass.filter(ir.api[user_settings.apiVar])
+				t = low_pass.filter(ir.get_data(user_settings.apiVar))
 				ambilight.map(t)
 				print(user_settings.apiVar + ':', t)
 				time.sleep(1 / user_settings.framerate)

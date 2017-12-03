@@ -59,6 +59,12 @@ class iRacer:
 		else:
 			return api_status
 
+	def get_data(self, var):
+		if var == 'DriverCarSL':
+			return self.sli_percent()
+		else:
+			return self.api[var]
+
 	def __get_shift_points(self):
 		self.__shift_rpm_min = self.api['DriverInfo']['DriverCarSLFirstRPM']
 		self.__shift_rpm_max = self.api['DriverInfo']['DriverCarSLLastRPM']
