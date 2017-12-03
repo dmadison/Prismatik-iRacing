@@ -65,11 +65,6 @@ irvar_custom_whitelist = [
 	#'DriverCarSLBlinkRPM',
 ]
 
-for item in irvar_global_whitelist:
-	irvar_whitelist.append(item)
-
-for item in irvar_restricted_whitelist:
-	irvar_whitelist.append(item)
-
-for item in irvar_custom_whitelist:
-	irvar_whitelist.append(item)
+irvar_whitelist.extend(irvar_global_whitelist)
+irvar_whitelist.extend(irvar_restricted_whitelist)
+irvar_whitelist.extend(irvar_custom_whitelist)
