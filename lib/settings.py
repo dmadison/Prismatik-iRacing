@@ -54,7 +54,6 @@ def check_color_hex(color):
 class Settings:
 	def __init__(self, configfile):
 		self.cfg = configfile + '.ini'
-		self.ir = ir_utils.iRacer()
 
 		# Prismatik API Settings
 		self.host = '127.0.0.1'

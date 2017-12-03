@@ -24,17 +24,19 @@ import time
 
 import lib.settings as settings
 import lib.ambimap as ambimap
+import lib.ir_utils as ir_utils
 
 if __name__ == '__main__':
 	user_settings = settings.Settings('cfg')
 	ambilight = ambimap.AmbiMap(user_settings)
+	ir = ir_utils.iRacer()
 
 	try:
 		while True:
-			ir_connection = user_settings.ir.check_connection()
+			ir_connection = ir.check_connection()
 
 			if ir_connection == True:
-				t = user_settings.ir.api[user_settings.apiVar]
+				t = ir.api[user_settings.apiVar]
 				ambilight.map(t)
 				print(user_settings.apiVar + ':', t)
 				time.sleep(1 / user_settings.framerate)
