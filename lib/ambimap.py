@@ -58,17 +58,6 @@ class AmbiMap:
 		self.initial_on = False
 		self.ambilight.disconnect()
 
-	def check_iracing(self):
-		if self.ir_connected and not self.settings.ir.check_connection():
-			self.ir_connected = False
-			self.settings.ir.shutdown()
-			self.disconnect()
-			print('irsdk disconnected')
-		elif not self.ir_connected and self.settings.ir.check_connection():
-			self.ir_connected = True
-			self.connect()
-			print('irsdk connected')
-
 	def get_color(self, percent):
 		if percent == 0.0:
 			return self.settings.off_color

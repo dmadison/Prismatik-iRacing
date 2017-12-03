@@ -31,14 +31,19 @@ if __name__ == '__main__':
 
 	try:
 		while True:
-			ambilight.check_iracing()
-			if ambilight.ir_connected:
+			ir_connection = user_settings.ir.check_connection()
+
+			if ir_connection == True:
 				t = user_settings.ir.api[user_settings.apiVar]
 				ambilight.map(t)
 				print(user_settings.apiVar + ':', t)
 				time.sleep(1 / user_settings.framerate)
+			elif ir_connection == "Connected":
+				ambilight.connect()
+			elif ir_connection == "Disconnected":
+				ambilight.disconnect()
 			else:
-				time.sleep(5)
+				time.sleep(1)
 	except KeyboardInterrupt:
 		# press ctrl+c to exit
 		pass

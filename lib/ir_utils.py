@@ -26,14 +26,31 @@ import irsdk
 class iRacer:
 	def __init__(self):
 		self.api = irsdk.IRSDK()
+		self.__connected = False
+
 		self.api.startup()
 
-	def check_connection(self):
+	def __check_api_state(self):
 		if self.api.is_initialized and self.api.is_connected:
 			return True
 		else:
 			self.api.startup()
 			return False
+
+	def check_connection(self):
+		api_status = self.__check_api_state()
+
+		if self.__connected and not api_status:
+			self.__connected = False
+			self.api.shutdown()
+			print('irsdk disconnected')
+			return 'Disconnected'
+		elif not self.__connected and api_status:
+			self.__connected = True
+			print('irsdk connected')
+			return 'Connected'
+		else:
+			return api_status
 
 	def sli_percent(self):
 		if self.api['DriverInfo']:
