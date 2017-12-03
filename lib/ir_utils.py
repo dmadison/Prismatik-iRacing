@@ -29,6 +29,11 @@ class iRacer:
 		self.api = irsdk.IRSDK()
 		self.__connected = False
 
+		# Shift Light Information
+		self.__shift_rpm_min = 0
+		self.__shift_rpm_max = 6000
+		self.__shift_rpm_max_blink = 6250
+
 		self.api.startup()
 
 	def __check_api_state(self):
@@ -49,27 +54,30 @@ class iRacer:
 		elif not self.__connected and api_status:
 			self.__connected = True
 			print('irsdk connected')
+			self.__get_shift_points()
 			return 'Connected'
 		else:
 			return api_status
 
+	def __get_shift_points(self):
+		self.__shift_rpm_min = self.api['DriverInfo']['DriverCarSLFirstRPM']
+		self.__shift_rpm_max = self.api['DriverInfo']['DriverCarSLLastRPM']
+		self.__shift_rpm_max_blink = self.api['DriverInfo']['DriverCarSLBlinkRPM']
+
 	def sli_percent(self):
 		if self.api['DriverInfo']:
-			rpm_min = self.api['DriverInfo']['DriverCarSLFirstRPM']
-			rpm_max = self.api['DriverInfo']['DriverCarSLLastRPM']
-			rpm_maxB = self.api['DriverInfo']['DriverCarSLBlinkRPM']
-			rpm_max_scale = rpm_max - rpm_min
+			rpm_max_scale = self.__shift_rpm_max - self.__shift_rpm_min
 
 			rpm_current = self.api['RPM']
 
-			if rpm_current >= rpm_maxB:
+			if rpm_current >= self.__shift_rpm_max_blink:
 				return 1.01
-			elif rpm_current >= rpm_max:
+			elif rpm_current >= self.__shift_rpm_max:
 				return 1.0
-			elif rpm_current <= rpm_min:
+			elif rpm_current <= self.__shift_rpm_min:
 				return 0.0
 			else:
-				rpm_current -= rpm_min
+				rpm_current -= self.__shift_rpm_min
 				shift_percentage = rpm_current / rpm_max_scale
 				return shift_percentage
 
