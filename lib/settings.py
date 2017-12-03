@@ -22,7 +22,6 @@
 
 import configparser
 import lib.ir_utils as ir_utils
-from lib.whitelist import irvar_whitelist as whitelist
 
 
 def is_float(x):
@@ -126,7 +125,7 @@ class Settings:
 			self.port = int(config['Prismatik']['port'])
 			self.api_key = config['Prismatik']['key']
 
-			if config['iRacing']['var'] in whitelist:
+			if config['iRacing']['var'] in ir_utils.whitelist:
 				self.apiVar = config['iRacing']['var']
 
 			framerate = int(config['User Settings']['fps'])
