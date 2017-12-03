@@ -30,13 +30,14 @@ if __name__ == '__main__':
 	user_settings = settings.Settings('cfg')
 	ambilight = ambimap.AmbiMap(user_settings)
 	ir = ir_utils.iRacer()
+	low_pass = ambimap.LowPass(user_settings.filtering)
 
 	try:
 		while True:
 			ir_connection = ir.check_connection()
 
 			if ir_connection == True:
-				t = ir.api[user_settings.apiVar]
+				t = low_pass.filter(ir.api[user_settings.apiVar])
 				ambilight.map(t)
 				print(user_settings.apiVar + ':', t)
 				time.sleep(1 / user_settings.framerate)

@@ -33,13 +33,29 @@ def linear_blend(color1, color2, blend_percent):
 	return color_out
 
 
+class LowPass:
+	def __init__(self, filter_weight, zero_threshold=0.025):
+		self.__weight = filter_weight
+		self.__zero_threshold = zero_threshold
+
+		self.__filtered = 0.0
+
+	def filter(self, percent):
+		self.__filtered = ((1 - self.__weight) * self.__filtered) \
+								  + (self.__weight * percent)
+
+		if self.__filtered <= self.__zero_threshold:
+			return 0.0
+		else:
+			return self.__filtered
+
+
 class AmbiMap:
 	def __init__(self, settings):
 		self.settings = settings
 		self.ambilight = lightpack.lightpack(settings.host, settings.port, None, settings.api_key)
 		self.initial_on = False
 
-		self.__filtered_percent = 0.0
 		self.__last_blink = time.time()
 
 	def connect(self):
@@ -80,18 +96,7 @@ class AmbiMap:
 					return self.settings.colors[step]
 			return self.settings.colors[len(self.settings.colors) - 1]
 
-	def __low_pass(self, percent):
-		self.__filtered_percent = ((1 - self.settings.filtering) * self.__filtered_percent) \
-								  + (self.settings.filtering * percent)
-
-		if self.__filtered_percent <= 0.025:
-			return 0.0
-		else:
-			return self.__filtered_percent
-
 	def map(self, percent):
-		percent = self.__low_pass(percent)
-
 		if percent > 1.0 and self.check_blink():
 			self.fill_empty()
 		elif self.settings.direction == 'all':
