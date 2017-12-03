@@ -22,33 +22,7 @@
 
 import configparser
 import lib.ir_utils as ir_utils
-
-
-def is_float(x):
-	try:
-		float(x)
-		return True
-	except ValueError:
-		return False
-
-
-def check_color_hex(color):
-	# Check and remove prefixes
-	if color[0:2] == '0x':
-		color = color[2:]
-	elif color[0] == 'x' or color[0] == '#':
-		color = color[1:]
-
-	if len(color) != 6:
-		return
-
-	try:
-		color_rgb = []
-		for i in range(0, 6, 2):
-			color_rgb.append(int(color[i:i + 2], 16))
-		return color_rgb
-	except ValueError:
-		return
+from lib.utils import is_float, check_color_hex
 
 
 class Settings:

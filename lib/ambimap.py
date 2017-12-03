@@ -22,32 +22,7 @@
 
 import time
 import lib.lightpack as lightpack
-
-
-def linear_blend(color1, color2, blend_percent):
-	color_out = []
-	for i in range(0, 3):
-		m = color2[i] - color1[i]
-		newC = (float(m) * blend_percent) + color1[i]
-		color_out.append(int(newC))
-	return color_out
-
-
-class LowPass:
-	def __init__(self, filter_weight, zero_threshold=0.025):
-		self.__weight = filter_weight
-		self.__zero_threshold = zero_threshold
-
-		self.__filtered = 0.0
-
-	def filter(self, percent):
-		self.__filtered = ((1 - self.__weight) * self.__filtered) \
-								  + (self.__weight * percent)
-
-		if self.__filtered <= self.__zero_threshold:
-			return 0.0
-		else:
-			return self.__filtered
+from lib.utils import linear_blend
 
 
 class AmbiMap:

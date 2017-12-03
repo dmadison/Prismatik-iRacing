@@ -25,12 +25,13 @@ import time
 import lib.settings as settings
 import lib.ambimap as ambimap
 import lib.ir_utils as ir_utils
+from lib.utils import LowPass
 
 if __name__ == '__main__':
 	user_settings = settings.Settings('cfg')
 	ambilight = ambimap.AmbiMap(user_settings)
 	ir = ir_utils.iRacer()
-	low_pass = ambimap.LowPass(user_settings.filtering)
+	low_pass = LowPass(user_settings.filtering)
 
 	try:
 		while True:
