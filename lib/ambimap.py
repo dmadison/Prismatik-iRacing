@@ -49,7 +49,7 @@ class AmbiMap:
 
 		self.ambilight.lock()
 		self.ambilight.turnOn()
-		self.__led_index = self.ambilight.getCountLeds() - 1
+		self.__num_leds = self.ambilight.getCountLeds()
 
 	def disconnect(self):
 		if self.initial_on == False:
@@ -106,26 +106,26 @@ class AmbiMap:
 	def fill_all(self, color):
 		leds = []
 
-		for led in range(0, self.__led_index + 1):
+		for led in range(0, self.__num_leds):
 			leds.append(color)
 		self.ambilight.setFrame(leds)
 
 	def fill_symmetric(self, percent, color):
-		led_step = percent * (self.__led_index / 2)
+		led_step = percent * ((self.__num_leds - 1) / 2)
 		leds = []
 
-		for led in range(0, self.__led_index + 1):
-			if led <= led_step or led >= self.__led_index - led_step:
+		for led in range(0, self.__num_leds):
+			if led <= led_step or led >= (self.__num_leds - 1) - led_step:
 				leds.append(color)
 			else:
 				leds.append(self.settings.off_color)
 		self.ambilight.setFrame(leds)
 
 	def fill_clockwise(self, percent, color):
-		led_step = (1 - percent) * self.__led_index
+		led_step = (1 - percent) * (self.__num_leds - 1)
 		leds = []
 
-		for led in range(0, self.__led_index + 1):
+		for led in range(0, self.__num_leds):
 			if led >= led_step:
 				leds.append(color)
 			else:
@@ -133,10 +133,10 @@ class AmbiMap:
 		self.ambilight.setFrame(leds)
 
 	def fill_cclockwise(self, percent, color):
-		led_step = percent * (self.__led_index)
+		led_step = percent * (self.__num_leds - 1)
 		leds = []
 
-		for led in range(0, self.__led_index + 1):
+		for led in range(0, self.__num_leds):
 			if led <= led_step:
 				leds.append(color)
 			else:
