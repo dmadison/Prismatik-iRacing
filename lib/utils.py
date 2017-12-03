@@ -29,12 +29,28 @@ def linear_blend(color1, color2, blend_percent):
 	return color_out
 
 
+def is_int(x):
+	try:
+		int(x)
+		return True
+	except ValueError:
+		return False
+
+
 def is_float(x):
 	try:
 		float(x)
 		return True
 	except ValueError:
 		return False
+
+def get_cfg_key(config, config_section, config_key):
+	try:
+		var = config[config_section][config_key]
+		return var
+	except(KeyError):
+		print("Error parsing config:", config_section, config_key)
+		return None
 
 
 def check_color_hex(color):

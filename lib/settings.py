@@ -22,7 +22,7 @@
 
 import configparser
 import lib.ir_utils as ir_utils
-from lib.utils import is_float, check_color_hex
+from lib.utils import is_int, is_float, get_cfg_key, check_color_hex
 
 
 class Settings:
@@ -93,27 +93,41 @@ class Settings:
 		config = configparser.ConfigParser()
 		config.read(cfgName)
 
+		# Prismatik Settings
+		config_var = get_cfg_key(config, 'Prismatik', 'host')
+		self.host = config_var if config_var is not None else self.host
+
+		config_var = get_cfg_key(config, 'Prismatik', 'port')
+		if config_var is not None and is_int(config_var):
+			self.port = int(config_var)
+
+		config_var = get_cfg_key(config, 'Prismatik', 'key')
+		self.api_key = config_var if config_var is not None else self.api_key
+
+		# iRacing Settings
+		config_var = get_cfg_key(config, 'iRacing', 'var')
+		if config_var is not None and config_var in ir_utils.whitelist:
+			self.apiVar = config_var
+
+		# User Settings
+		config_var = get_cfg_key(config, 'User Settings', 'fps')
+		if config_var is not None and is_int(config_var):
+			self.framerate = int(config_var) if int(config_var) <= 60 else 60
+
+		config_var = get_cfg_key(config, 'User Settings', 'direction')
+		if config_var is not None and self.check_directions(config_var):
+			self.direction = config_var
+
+		self.set_colors(get_cfg_key(config, 'User Settings', 'colors'))
+
+		config_var = check_color_hex(get_cfg_key(config, 'User Settings', 'off_color'))
+		self.off_color = config_var if config_var is not None else self.off_color
+
 		try:
-			self.host = config['Prismatik']['host']
-			self.port = int(config['Prismatik']['port'])
-			self.api_key = config['Prismatik']['key']
-
-			if config['iRacing']['var'] in ir_utils.whitelist:
-				self.apiVar = config['iRacing']['var']
-
-			framerate = int(config['User Settings']['fps'])
-			if framerate <= 60:
-				self.framerate = framerate
-
-			if self.check_directions(config['User Settings']['direction']):
-				self.direction = config['User Settings']['direction']
-
-			self.set_colors(config['User Settings']['colors'])
-			off_color = check_color_hex(config['User Settings']['off_color'])
-			if off_color is not None:
-				self.off_color = off_color
-
 			self.smoothing = config.getboolean('User Settings', 'color_smoothing')
-			self.set_filtering(config['User Settings']['data_filtering'])
-		except (KeyError, ValueError):
-			print("Error parsing cfg")
+		except KeyError:
+			print("Error parsing config:", "User Settings", "color_smoothing")
+
+		config_var = get_cfg_key(config, 'User Settings', 'data_filtering')
+		if config_var is not None:
+			self.set_filtering(config_var)
