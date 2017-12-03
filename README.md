@@ -16,7 +16,7 @@ This plugin allows you to visualize data from iRacing with an ambilight.
 Modify the `cfg.ini` files with your settings. This is where you set the Prismatik API login and the variable to poll from iRacing, as well as the pattern and color information for the ambilight.
 
 ```
-[Lightpack]
+[Prismatik]
 # make sure to enable the API server in the Prismatik settings
 host: 127.0.0.1
 port: 3636
@@ -33,7 +33,7 @@ color_smoothing: true
 data_filtering: low
 ```
 
-### Lightpack:
+### Prismatik:
 * **host:** IP for the Prismatik installation you want to use. Default is the loopback address.
 * **port:** socket port, set in Prismatik.
 * **key:** (optional) API authentication key, set in Prismatik.
