@@ -107,17 +107,7 @@ class Settings:
 		self.api_key = config_var if config_var is not None else self.api_key
 
 		# iRacing Settings
-		config_var = get_cfg_key(config, 'iRacing', 'var')
-		if config_var is not None and config_var in ir_utils.whitelist:
-			self.apiVar = config_var
-
-		config_var = get_cfg_key(config, 'iRacing', 'var_min')
-		if config_var is not None and is_float(config_var):
-			self.var_min = float(config_var)
-
-		config_var = get_cfg_key(config, 'iRacing', 'var_max')
-		if config_var is not None and is_float(config_var):
-			self.var_max = float(config_var)
+		self.__parse_iracing(config)
 
 		# User Settings
 		config_var = get_cfg_key(config, 'User Settings', 'fps')
@@ -141,3 +131,21 @@ class Settings:
 		config_var = get_cfg_key(config, 'User Settings', 'data_filtering')
 		if config_var is not None:
 			self.set_filtering(config_var)
+
+	def __parse_iracing(self, config):
+		custom_range = False
+		var_min = get_cfg_key(config, 'iRacing', 'var_min')
+		var_max = get_cfg_key(config, 'iRacing', 'var_max')
+		if var_min is not None and var_max is not None \
+			and is_float(var_min) and is_float(var_max):
+				self.var_min = float(var_min)
+				self.var_max = float(var_max)
+				custom_range = True
+
+		api_var = get_cfg_key(config, 'iRacing', 'var')
+		if api_var is not None and \
+			((api_var in ir_utils.whitelist) or custom_range):
+					self.apiVar = api_var
+
+
+
