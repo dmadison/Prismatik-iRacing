@@ -54,6 +54,9 @@ def get_cfg_key(config, config_section, config_key):
 
 
 def check_color_hex(color):
+	if color is None:
+		return
+
 	# Check and remove prefixes
 	if color[0:2] == '0x':
 		color = color[2:]

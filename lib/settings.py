@@ -77,6 +77,9 @@ class Settings:
 			self.filtering = 0.2
 
 	def set_colors(self, cfg_colors):
+		if cfg_colors is None:
+			return
+
 		colors_temp = cfg_colors.split(',')
 
 		try:
