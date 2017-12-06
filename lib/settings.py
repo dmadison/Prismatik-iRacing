@@ -100,32 +100,32 @@ class Settings:
 		config.read(cfgName)
 
 		# Prismatik Settings
-		config_var = get_cfg_key(config, 'Prismatik', 'host')
-		self.host = config_var if config_var is not None else self.host
+		prismatik_host = get_cfg_key(config, 'Prismatik', 'host')
+		self.host = prismatik_host if prismatik_host is not None else self.host
 
-		config_var = get_cfg_key(config, 'Prismatik', 'port')
-		if config_var is not None and is_int(config_var):
-			self.port = int(config_var)
+		prismatik_port = get_cfg_key(config, 'Prismatik', 'port')
+		if prismatik_port is not None and is_int(prismatik_port):
+			self.port = int(prismatik_port)
 
-		config_var = get_cfg_key(config, 'Prismatik', 'key')
-		self.api_key = config_var if config_var is not None else self.api_key
+		prismatik_key = get_cfg_key(config, 'Prismatik', 'key')
+		self.api_key = prismatik_key if prismatik_key is not None else self.api_key
 
 		# iRacing Settings
 		self.__parse_iracing(config)
 
 		# User Settings
-		config_var = get_cfg_key(config, 'User Settings', 'fps')
-		if config_var is not None and is_int(config_var):
-			self.framerate = int(config_var) if int(config_var) <= 60 else 60
+		fps = get_cfg_key(config, 'User Settings', 'fps')
+		if fps is not None and is_int(fps):
+			self.framerate = int(fps) if int(fps) <= 60 else 60
 
-		config_var = get_cfg_key(config, 'User Settings', 'direction')
-		if config_var is not None and self.check_directions(config_var):
-			self.direction = config_var
+		direction = get_cfg_key(config, 'User Settings', 'direction')
+		if direction is not None and self.check_directions(direction):
+			self.direction = direction
 
 		self.set_colors(get_cfg_key(config, 'User Settings', 'colors'))
 
-		config_var = check_color_hex(get_cfg_key(config, 'User Settings', 'off_color'))
-		self.off_color = config_var if config_var is not None else self.off_color
+		off_color = check_color_hex(get_cfg_key(config, 'User Settings', 'off_color'))
+		self.off_color = off_color if off_color is not None else self.off_color
 
 		blink_rate = get_cfg_key(config, 'User Settings', 'blink_rate')
 		if blink_rate is not None:
@@ -139,9 +139,9 @@ class Settings:
 		except (KeyError, configparser.NoSectionError):
 			print("Error parsing config:", "User Settings", "color_smoothing")
 
-		config_var = get_cfg_key(config, 'User Settings', 'data_filtering')
-		if config_var is not None:
-			self.set_filtering(config_var)
+		data_filtering = get_cfg_key(config, 'User Settings', 'data_filtering')
+		if data_filtering is not None:
+			self.set_filtering(data_filtering)
 
 	def __parse_iracing(self, config):
 		custom_range = False
@@ -157,6 +157,3 @@ class Settings:
 		if api_var is not None and \
 			((api_var in ir_utils.whitelist) or custom_range):
 					self.apiVar = api_var
-
-
-
