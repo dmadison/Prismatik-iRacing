@@ -35,7 +35,7 @@ class Settings:
 		self.api_key = None
 
 		# iRacing API Settings
-		self.apiVar = 'ShiftIndicatorPct'
+		self.apiVar = 'ShiftLight'
 		self.var_min = 0.0
 		self.var_max = 1.0
 

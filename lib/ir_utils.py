@@ -60,7 +60,7 @@ class iRacer:
 			return api_status
 
 	def get_data(self, var):
-		if var == 'DriverCarSL':
+		if var == 'ShiftLight':
 			return self.sli_percent()
 		else:
 			return self.api[var]
