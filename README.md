@@ -23,12 +23,16 @@ port: 3636
 key:
 
 [iRacing]
-var: ShiftIndicatorPct
+var: ShiftLight
+var_min: 0.0
+var_max: 1.0
 
 [User Settings]
 fps: 60
 direction: symmetric
 colors: #00FF00, #FFFF00, #FF0000
+off_color: #000000
+blink_rate: 2.5
 color_smoothing: true
 data_filtering: low
 ```
@@ -39,7 +43,9 @@ data_filtering: low
 * **key:** (optional) API authentication key, set in Prismatik.
 
 ### iRacing:
-* **var:** the variable being polled from *iRacing* to map to the LEDs. At the moment this is limited to variables that are returned as floating point percentages, such as throttle, brake, and shift light percentages.
+* **var:** the variable being polled from *iRacing* to map to the LEDs. Works best with percentage-based variables such as Throttle, Brake, and ShiftLight.
+* **var_min:** minimum value from the variable for mapping. Necessary for variables that aren't percentage-based.
+* **var_max:** max value from the variable, same as above.
 
 ### User Settings:
 These options can be customized to your liking, depending on how you want the lights to look.
@@ -47,8 +53,10 @@ These options can be customized to your liking, depending on how you want the li
 * **fps:** update rate for the API data and LED frames. *iRacing* API data is limited to a max of 60 fps.
 * **direction:** light-up pattern direction. Options: all, symmetric, clockwise, counter-clockwise.
 * **colors:** comma-separated list of RGB colors as [hex triplets](https://en.wikipedia.org/wiki/Web_colors#Hex_triplet). Ordered from low mapped value to high.
+* **off_color:** the 'zero' color that fills the rest of the LEDs. Usually black, but it's available to change if you want to.
+* **blink_rate**: blinking speed of the LEDs if they're past the max value, in Hertz. Set to 0 or 'off' to disable blinking entirely.
 * **color_smoothing:** when enabled, adds a linear fade between colors for a smooth transition. If disabled, color transitions are abrupt.
-* **data_filtering:** new value weight for the low-pass filter. Can either be set as a preset (none, low, medium, high) or as a float value from 0 - 1. Smaller values will give smoother but less-responsive results.
+* **data_filtering:** weight towards the new value for the low-pass filter. Can either be set as a preset (none, low, medium, high) or as a float value from 0 - 1. Smaller values will give smoother but less-responsive results.
 
 ## License
 This plugin is licensed under the terms of the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
