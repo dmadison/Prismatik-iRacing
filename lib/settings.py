@@ -36,6 +36,8 @@ class Settings:
 
 		# iRacing API Settings
 		self.apiVar = 'ShiftIndicatorPct'
+		self.var_min = 0.0
+		self.var_max = 1.0
 
 		# Plugin Settings
 		self.framerate = 60
@@ -108,6 +110,14 @@ class Settings:
 		config_var = get_cfg_key(config, 'iRacing', 'var')
 		if config_var is not None and config_var in ir_utils.whitelist:
 			self.apiVar = config_var
+
+		config_var = get_cfg_key(config, 'iRacing', 'var_min')
+		if config_var is not None and is_float(config_var):
+			self.var_min = float(config_var)
+
+		config_var = get_cfg_key(config, 'iRacing', 'var_max')
+		if config_var is not None and is_float(config_var):
+			self.var_max = float(config_var)
 
 		# User Settings
 		config_var = get_cfg_key(config, 'User Settings', 'fps')

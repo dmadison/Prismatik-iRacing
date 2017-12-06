@@ -25,7 +25,7 @@ import time
 import lib.settings as settings
 import lib.ambimap as ambimap
 import lib.ir_utils as ir_utils
-from lib.utils import LowPass
+from lib.utils import LowPass, rescale
 
 if __name__ == '__main__':
 	user_settings = settings.Settings('cfg')
@@ -38,9 +38,10 @@ if __name__ == '__main__':
 			ir_connection = ir.check_connection()
 
 			if ir_connection == True:
-				t = low_pass.filter(ir.get_data(user_settings.apiVar))
-				ambilight.map(t)
-				print(user_settings.apiVar + ':', t)
+				var = ir.get_data(user_settings.apiVar)
+				var = low_pass.filter(rescale(var, user_settings.var_min, user_settings.var_max))
+				ambilight.map(var)
+				print(user_settings.apiVar + ':', var)
 				time.sleep(1 / user_settings.framerate)
 			elif ir_connection == "Connected":
 				ambilight.connect()

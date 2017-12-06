@@ -72,6 +72,10 @@ def check_color_hex(color):
 		return
 
 
+def rescale(x, min_val, max_val):
+	return (x - min_val) / (max_val - min_val)
+
+
 class LowPass:
 	def __init__(self, filter_weight, zero_threshold=0.025):
 		self.__weight = filter_weight
