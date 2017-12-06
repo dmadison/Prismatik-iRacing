@@ -49,7 +49,7 @@ class AmbiMap:
 		self.ambilight.disconnect()
 
 	def get_color(self, percent):
-		if percent == 0.0:
+		if percent <= 0.0:
 			return self.settings.off_color
 
 		percent_step = 1.0 / len(self.settings.colors)
