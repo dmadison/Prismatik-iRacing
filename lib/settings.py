@@ -44,6 +44,7 @@ class Settings:
 		self.direction = 'symmetric'
 		self.colors = [[0, 255, 0], [255, 255, 0], [255, 0, 0]]  # Green, Yellow, Red
 		self.off_color = [0, 0, 0]
+		self.blink_rate = 2.5  # in Hertz
 		self.smoothing = True
 		self.filtering = 0.6
 
@@ -122,6 +123,13 @@ class Settings:
 
 		config_var = check_color_hex(get_cfg_key(config, 'User Settings', 'off_color'))
 		self.off_color = config_var if config_var is not None else self.off_color
+
+		blink_rate = get_cfg_key(config, 'User Settings', 'blink_rate')
+		if blink_rate is not None:
+			if is_float(blink_rate):
+				self.blink_rate = float(blink_rate)
+			elif blink_rate.lower() is 'off' or 'none':
+				self.blink_rate = 0
 
 		try:
 			self.smoothing = config.getboolean('User Settings', 'color_smoothing')

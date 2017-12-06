@@ -127,8 +127,11 @@ class AmbiMap:
 		self.fill_all(self.settings.off_color)
 
 	def check_blink(self):
+		if self.settings.blink_rate == 0:
+			return False
+
 		time_now = time.time()
-		blink_period = 0.400
+		blink_period = (1 / self.settings.blink_rate)
 
 		blink_time = time_now - self.__last_blink
 
