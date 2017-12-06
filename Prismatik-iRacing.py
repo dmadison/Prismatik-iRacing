@@ -27,6 +27,24 @@ import lib.ambimap as ambimap
 import lib.ir_utils as ir_utils
 from lib.utils import LowPass, rescale
 
+
+def process_frame():
+	var = ir.get_data(user_settings.apiVar)
+	var = low_pass.filter(rescale(var, user_settings.var_min, user_settings.var_max))
+	ambilight.map(var)
+	print(user_settings.apiVar + ':', var)
+
+
+def framerate_limiter():
+	time_start = time.time()
+	process_frame()
+
+	frame_time = (1 / user_settings.framerate)
+	time_passed = time.time() - time_start
+	if time_passed < frame_time:  # Only delay if there is time to waste
+		time.sleep(frame_time - time_passed)
+
+
 if __name__ == '__main__':
 	user_settings = settings.Settings('cfg')
 	ambilight = ambimap.AmbiMap(user_settings)
@@ -38,11 +56,7 @@ if __name__ == '__main__':
 			ir_connection = ir.check_connection()
 
 			if ir_connection == True:
-				var = ir.get_data(user_settings.apiVar)
-				var = low_pass.filter(rescale(var, user_settings.var_min, user_settings.var_max))
-				ambilight.map(var)
-				print(user_settings.apiVar + ':', var)
-				time.sleep(1 / user_settings.framerate)
+				framerate_limiter()
 			elif ir_connection == "Connected":
 				ambilight.connect()
 			elif ir_connection == "Disconnected":
