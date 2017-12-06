@@ -136,7 +136,7 @@ class Settings:
 
 		try:
 			self.smoothing = config.getboolean('User Settings', 'color_smoothing')
-		except KeyError:
+		except (KeyError, configparser.NoSectionError):
 			print("Error parsing config:", "User Settings", "color_smoothing")
 
 		config_var = get_cfg_key(config, 'User Settings', 'data_filtering')
