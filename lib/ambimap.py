@@ -22,15 +22,7 @@
 
 import time
 import lib.lightpack as lightpack
-
-
-def linear_blend(color1, color2, blend_percent):
-	color_out = []
-	for i in range(0, 3):
-		m = color2[i] - color1[i]
-		newC = (float(m) * blend_percent) + color1[i]
-		color_out.append(int(newC))
-	return color_out
+from lib.utils import linear_blend
 
 
 class AmbiMap:
@@ -39,7 +31,6 @@ class AmbiMap:
 		self.ambilight = lightpack.lightpack(settings.host, settings.port, None, settings.api_key)
 		self.initial_on = False
 
-		self.__filtered_percent = 0.0
 		self.__last_blink = time.time()
 
 	def connect(self):
@@ -49,7 +40,7 @@ class AmbiMap:
 
 		self.ambilight.lock()
 		self.ambilight.turnOn()
-		self.__led_index = self.ambilight.getCountLeds() - 1
+		self.__num_leds = self.ambilight.getCountLeds()
 
 	def disconnect(self):
 		if self.initial_on == False:
@@ -58,7 +49,7 @@ class AmbiMap:
 		self.ambilight.disconnect()
 
 	def get_color(self, percent):
-		if percent == 0.0:
+		if percent <= 0.0:
 			return self.settings.off_color
 
 		percent_step = 1.0 / len(self.settings.colors)
@@ -80,18 +71,7 @@ class AmbiMap:
 					return self.settings.colors[step]
 			return self.settings.colors[len(self.settings.colors) - 1]
 
-	def __low_pass(self, percent):
-		self.__filtered_percent = ((1 - self.settings.filtering) * self.__filtered_percent) \
-								  + (self.settings.filtering * percent)
-
-		if self.__filtered_percent <= 0.025:
-			return 0.0
-		else:
-			return self.__filtered_percent
-
 	def map(self, percent):
-		percent = self.__low_pass(percent)
-
 		if percent > 1.0 and self.check_blink():
 			self.fill_empty()
 		elif self.settings.direction == 'all':
@@ -106,26 +86,26 @@ class AmbiMap:
 	def fill_all(self, color):
 		leds = []
 
-		for led in range(0, self.__led_index + 1):
+		for led in range(0, self.__num_leds):
 			leds.append(color)
 		self.ambilight.setFrame(leds)
 
 	def fill_symmetric(self, percent, color):
-		led_step = percent * (self.__led_index / 2)
+		led_step = percent * ((self.__num_leds - 1) / 2)
 		leds = []
 
-		for led in range(0, self.__led_index + 1):
-			if led <= led_step or led >= self.__led_index - led_step:
+		for led in range(0, self.__num_leds):
+			if led <= led_step or led >= (self.__num_leds - 1) - led_step:
 				leds.append(color)
 			else:
 				leds.append(self.settings.off_color)
 		self.ambilight.setFrame(leds)
 
 	def fill_clockwise(self, percent, color):
-		led_step = (1 - percent) * self.__led_index
+		led_step = (1 - percent) * (self.__num_leds - 1)
 		leds = []
 
-		for led in range(0, self.__led_index + 1):
+		for led in range(0, self.__num_leds):
 			if led >= led_step:
 				leds.append(color)
 			else:
@@ -133,10 +113,10 @@ class AmbiMap:
 		self.ambilight.setFrame(leds)
 
 	def fill_cclockwise(self, percent, color):
-		led_step = percent * (self.__led_index)
+		led_step = percent * (self.__num_leds - 1)
 		leds = []
 
-		for led in range(0, self.__led_index + 1):
+		for led in range(0, self.__num_leds):
 			if led <= led_step:
 				leds.append(color)
 			else:
@@ -147,8 +127,11 @@ class AmbiMap:
 		self.fill_all(self.settings.off_color)
 
 	def check_blink(self):
+		if self.settings.blink_rate == 0:
+			return False
+
 		time_now = time.time()
-		blink_period = 0.400
+		blink_period = (1 / self.settings.blink_rate)
 
 		blink_time = time_now - self.__last_blink
 

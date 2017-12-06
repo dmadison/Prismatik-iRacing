@@ -22,33 +22,7 @@
 
 import configparser
 import lib.ir_utils as ir_utils
-
-
-def is_float(x):
-	try:
-		float(x)
-		return True
-	except ValueError:
-		return False
-
-
-def check_color_hex(color):
-	# Check and remove prefixes
-	if color[0:2] == '0x':
-		color = color[2:]
-	elif color[0] == 'x' or color[0] == '#':
-		color = color[1:]
-
-	if len(color) != 6:
-		return
-
-	try:
-		color_rgb = []
-		for i in range(0, 6, 2):
-			color_rgb.append(int(color[i:i + 2], 16))
-		return color_rgb
-	except ValueError:
-		return
+from lib.utils import is_int, is_float, get_cfg_key, check_color_hex
 
 
 class Settings:
@@ -61,13 +35,16 @@ class Settings:
 		self.api_key = None
 
 		# iRacing API Settings
-		self.apiVar = 'ShiftIndicatorPct'
+		self.apiVar = 'ShiftLight'
+		self.var_min = 0.0
+		self.var_max = 1.0
 
 		# Plugin Settings
 		self.framerate = 60
 		self.direction = 'symmetric'
 		self.colors = [[0, 255, 0], [255, 255, 0], [255, 0, 0]]  # Green, Yellow, Red
 		self.off_color = [0, 0, 0]
+		self.blink_rate = 2.5  # in Hertz
 		self.smoothing = True
 		self.filtering = 0.6
 
@@ -100,6 +77,9 @@ class Settings:
 			self.filtering = 0.2
 
 	def set_colors(self, cfg_colors):
+		if cfg_colors is None:
+			return
+
 		colors_temp = cfg_colors.split(',')
 
 		try:
@@ -119,27 +99,61 @@ class Settings:
 		config = configparser.ConfigParser()
 		config.read(cfgName)
 
+		# Prismatik Settings
+		prismatik_host = get_cfg_key(config, 'Prismatik', 'host')
+		self.host = prismatik_host if prismatik_host is not None else self.host
+
+		prismatik_port = get_cfg_key(config, 'Prismatik', 'port')
+		if prismatik_port is not None and is_int(prismatik_port):
+			self.port = int(prismatik_port)
+
+		prismatik_key = get_cfg_key(config, 'Prismatik', 'key')
+		self.api_key = prismatik_key if prismatik_key is not None else self.api_key
+
+		# iRacing Settings
+		self.__parse_iracing(config)
+
+		# User Settings
+		fps = get_cfg_key(config, 'User Settings', 'fps')
+		if fps is not None and is_int(fps):
+			self.framerate = int(fps) if int(fps) <= 60 else 60
+
+		direction = get_cfg_key(config, 'User Settings', 'direction')
+		if direction is not None and self.check_directions(direction):
+			self.direction = direction
+
+		self.set_colors(get_cfg_key(config, 'User Settings', 'colors'))
+
+		off_color = check_color_hex(get_cfg_key(config, 'User Settings', 'off_color'))
+		self.off_color = off_color if off_color is not None else self.off_color
+
+		blink_rate = get_cfg_key(config, 'User Settings', 'blink_rate')
+		if blink_rate is not None:
+			if is_float(blink_rate):
+				self.blink_rate = float(blink_rate)
+			elif blink_rate.lower() is 'off' or 'none':
+				self.blink_rate = 0
+
 		try:
-			self.host = config['Prismatik']['host']
-			self.port = int(config['Prismatik']['port'])
-			self.api_key = config['Prismatik']['key']
-
-			if config['iRacing']['var'] in ir_utils.whitelist:
-				self.apiVar = config['iRacing']['var']
-
-			framerate = int(config['User Settings']['fps'])
-			if framerate <= 60:
-				self.framerate = framerate
-
-			if self.check_directions(config['User Settings']['direction']):
-				self.direction = config['User Settings']['direction']
-
-			self.set_colors(config['User Settings']['colors'])
-			off_color = check_color_hex(config['User Settings']['off_color'])
-			if off_color is not None:
-				self.off_color = off_color
-
 			self.smoothing = config.getboolean('User Settings', 'color_smoothing')
-			self.set_filtering(config['User Settings']['data_filtering'])
-		except (KeyError, ValueError):
-			print("Error parsing cfg")
+		except (KeyError, configparser.NoSectionError):
+			print("Error parsing config:", "User Settings", "color_smoothing")
+
+		data_filtering = get_cfg_key(config, 'User Settings', 'data_filtering')
+		if data_filtering is not None:
+			self.set_filtering(data_filtering)
+
+	def __parse_iracing(self, config):
+		custom_range = False
+		var_min = get_cfg_key(config, 'iRacing', 'var_min')
+		var_max = get_cfg_key(config, 'iRacing', 'var_max')
+		if var_min is not None and var_max is not None \
+			and is_float(var_min) and is_float(var_max):
+				self.var_min = float(var_min)
+				self.var_max = float(var_max)
+				custom_range = True
+
+		api_var = get_cfg_key(config, 'iRacing', 'var')
+		if api_var is not None and \
+			((api_var in ir_utils.whitelist) or custom_range):
+					self.apiVar = api_var
