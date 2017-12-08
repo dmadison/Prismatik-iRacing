@@ -72,6 +72,12 @@ class AmbiMap:
 					return self.settings.colors[step]
 			return self.settings.colors[len(self.settings.colors) - 1]
 
+	def __substitute_color(self, percent, color):
+		if color is not None:
+			return color
+
+		return self.get_color(percent)
+
 	def map(self, percent):
 		color = self.get_color(percent) if self.settings.single_color else None
 
@@ -100,16 +106,10 @@ class AmbiMap:
 
 		for led in range(0, self.__num_leds):
 			if led <= led_step:
-				if color is None:
-					leds.append(self.get_color(led / led_step))
-				else:
-					leds.append(color)
+				leds.append(self.__substitute_color(led / led_step, color))
 			elif led >= (self.__num_leds - 1) - led_step:
-				if color is None:
-					led_inverted = (self.__num_leds - 1) - led
-					leds.append(self.get_color(led_inverted / led_step))
-				else:
-					leds.append(color)
+				led_inverted = (self.__num_leds - 1) - led
+				leds.append(self.__substitute_color(led_inverted / led_step, color))
 			else:
 				leds.append(self.settings.off_color)
 		self.ambilight.setFrame(leds)
@@ -120,11 +120,8 @@ class AmbiMap:
 
 		for led in range(0, self.__num_leds):
 			if led >= led_step:
-				if color is None:
-					led_inverted = (self.__num_leds - 1) - led
-					leds.append(self.get_color(led_inverted / self.__num_leds))
-				else:
-					leds.append(color)
+				led_inverted = (self.__num_leds - 1) - led
+				leds.append(self.__substitute_color(led_inverted / self.__num_leds, color))
 			else:
 				leds.append(self.settings.off_color)
 		self.ambilight.setFrame(leds)
@@ -135,10 +132,7 @@ class AmbiMap:
 
 		for led in range(0, self.__num_leds):
 			if led <= led_step:
-				if color is None:
-					leds.append(self.get_color(led / self.__num_leds))
-				else:
-					leds.append(color)
+				leds.append(self.__substitute_color(led / self.__num_leds, color))
 			else:
 				leds.append(self.settings.off_color)
 		self.ambilight.setFrame(leds)
