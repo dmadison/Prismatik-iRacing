@@ -72,16 +72,18 @@ class AmbiMap:
 			return self.settings.colors[len(self.settings.colors) - 1]
 
 	def map(self, percent):
+		color = self.get_color(percent) if self.settings.single_color else None
+
 		if percent == 0.0 or (percent > 1.0 and self.check_blink()):
 			self.fill_empty()
 		elif self.settings.direction == 'all':
 			self.fill_all(self.get_color(percent))
 		elif self.settings.direction == 'symmetric':
-			self.fill_symmetric(percent, self.get_color(percent))
+			self.fill_symmetric(percent, color)
 		elif self.settings.direction == 'clockwise':
-			self.fill_clockwise(percent, self.get_color(percent))
+			self.fill_clockwise(percent, color)
 		elif self.settings.direction == 'counter-clockwise':
-			self.fill_cclockwise(percent, self.get_color(percent))
+			self.fill_cclockwise(percent, color)
 
 	def fill_all(self, color):
 		leds = []
@@ -90,35 +92,52 @@ class AmbiMap:
 			leds.append(color)
 		self.ambilight.setFrame(leds)
 
-	def fill_symmetric(self, percent, color):
-		led_step = percent * ((self.__num_leds - 1) / 2)
+	def fill_symmetric(self, percent, color=None):
+		led_half = ((self.__num_leds) / 2)
+		led_step = percent * led_half
 		leds = []
 
 		for led in range(0, self.__num_leds):
-			if led <= led_step or led >= (self.__num_leds - 1) - led_step:
-				leds.append(color)
+			if led <= led_step:
+				if color is None:
+					leds.append(self.get_color(led / led_step))
+				else:
+					leds.append(color)
+			elif led >= (self.__num_leds - 1) - led_step:
+				if color is None:
+					led_inverted = (self.__num_leds - 1) - led
+					leds.append(self.get_color(led_inverted / led_step))
+				else:
+					leds.append(color)
 			else:
 				leds.append(self.settings.off_color)
 		self.ambilight.setFrame(leds)
 
-	def fill_clockwise(self, percent, color):
+	def fill_clockwise(self, percent, color=None):
 		led_step = (1 - percent) * (self.__num_leds - 1)
 		leds = []
 
 		for led in range(0, self.__num_leds):
 			if led >= led_step:
-				leds.append(color)
+				if color is None:
+					led_inverted = (self.__num_leds - 1) - led
+					leds.append(self.get_color(led_inverted / self.__num_leds))
+				else:
+					leds.append(color)
 			else:
 				leds.append(self.settings.off_color)
 		self.ambilight.setFrame(leds)
 
-	def fill_cclockwise(self, percent, color):
+	def fill_cclockwise(self, percent, color=None):
 		led_step = percent * (self.__num_leds - 1)
 		leds = []
 
 		for led in range(0, self.__num_leds):
 			if led <= led_step:
-				leds.append(color)
+				if color is None:
+					leds.append(self.get_color(led / self.__num_leds))
+				else:
+					leds.append(color)
 			else:
 				leds.append(self.settings.off_color)
 		self.ambilight.setFrame(leds)

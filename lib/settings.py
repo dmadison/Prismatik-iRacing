@@ -44,6 +44,7 @@ class Settings:
 		self.direction = 'symmetric'
 		self.colors = [[0, 255, 0], [255, 255, 0], [255, 0, 0]]  # Green, Yellow, Red
 		self.off_color = [0, 0, 0]
+		self.single_color = False
 		self.blink_rate = 2.5  # in Hertz
 		self.smoothing = True
 		self.filtering = 0.6
@@ -126,6 +127,11 @@ class Settings:
 
 		off_color = check_color_hex(get_cfg_key(config, 'User Settings', 'off_color'))
 		self.off_color = off_color if off_color is not None else self.off_color
+
+		try:
+			self.single_color = config.getboolean('User Settings', 'single_color')
+		except (KeyError, configparser.NoSectionError):
+			print("Error parsing config:", "User Settings", "single_color")
 
 		blink_rate = get_cfg_key(config, 'User Settings', 'blink_rate')
 		if blink_rate is not None:
