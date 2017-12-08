@@ -62,6 +62,7 @@ irvar_restricted_whitelist = [
 
 irvar_custom_whitelist = [
 	'ShiftLight',
+	'ShiftLightBlink',
 	#'DriverCarSLBlinkRPM',
 ]
 
