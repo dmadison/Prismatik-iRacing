@@ -81,7 +81,7 @@ class AmbiMap:
 	def map(self, percent):
 		color = self.get_color(percent) if self.settings.single_color else None
 
-		if percent == 0.0 or (percent > 1.0 and self.check_blink()):
+		if percent > 1.0 and self.check_blink():
 			self.fill_empty()
 		elif self.settings.direction == 'all':
 			self.fill_all(self.get_color(percent))
@@ -100,6 +100,10 @@ class AmbiMap:
 		self.ambilight.setFrame(leds)
 
 	def fill_symmetric(self, percent, color=None):
+		if percent == 0.0:
+			self.fill_empty()
+			return
+
 		led_half = ((self.__num_leds) / 2)
 		led_step = percent * led_half
 		leds = []
@@ -115,6 +119,10 @@ class AmbiMap:
 		self.ambilight.setFrame(leds)
 
 	def fill_clockwise(self, percent, color=None):
+		if percent == 0.0:
+			self.fill_empty()
+			return
+
 		led_step = (1 - percent) * (self.__num_leds - 1)
 		leds = []
 
@@ -127,6 +135,10 @@ class AmbiMap:
 		self.ambilight.setFrame(leds)
 
 	def fill_cclockwise(self, percent, color=None):
+		if percent == 0.0:
+			self.fill_empty()
+			return
+
 		led_step = percent * (self.__num_leds - 1)
 		leds = []
 
