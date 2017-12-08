@@ -90,7 +90,7 @@ class AmbiMap:
 		elif self.settings.direction == 'clockwise':
 			self.fill_clockwise(percent, color)
 		elif self.settings.direction == 'counter-clockwise':
-			self.fill_cclockwise(percent, color)
+			self.fill_counter_clockwise(percent, color)
 
 	def fill_all(self, color):
 		leds = []
@@ -134,7 +134,7 @@ class AmbiMap:
 				leds.append(self.settings.off_color)
 		self.ambilight.setFrame(leds)
 
-	def fill_cclockwise(self, percent, color=None):
+	def fill_counter_clockwise(self, percent, color=None):
 		if percent == 0.0:
 			self.fill_empty()
 			return
