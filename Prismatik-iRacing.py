@@ -29,11 +29,10 @@ from lib.utils import LowPass, rescale
 
 
 def process_frame():
-	var = ir.get_data(user_settings.apiVar)
+	var = ir.get_data(user_settings.api_var)
 	scaled_var = low_pass.filter(rescale(var, user_settings.var_min, user_settings.var_max))
-	print(user_settings.apiVar + ':', var, '(' + str(scaled_var) + ')')
+	print(user_settings.api_var + ':', var, '(' + str(scaled_var) + ')')
 	ambilight.map(scaled_var)
-
 
 
 def framerate_limiter():

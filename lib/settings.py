@@ -35,7 +35,7 @@ class Settings:
 		self.api_key = None
 
 		# iRacing API Settings
-		self.apiVar = 'ShiftLight'
+		self.api_var = 'ShiftLight'
 		self.var_min = 0.0
 		self.var_max = 1.0
 
@@ -156,4 +156,4 @@ class Settings:
 		api_var = get_cfg_key(config, 'iRacing', 'var')
 		if api_var is not None and \
 			((api_var in ir_utils.whitelist) or custom_range):
-					self.apiVar = api_var
+					self.api_var = api_var
