@@ -72,7 +72,7 @@ class AmbiMap:
 			return self.settings.colors[len(self.settings.colors) - 1]
 
 	def map(self, percent):
-		if percent > 1.0 and self.check_blink():
+		if percent == 0.0 or (percent > 1.0 and self.check_blink()):
 			self.fill_empty()
 		elif self.settings.direction == 'all':
 			self.fill_all(self.get_color(percent))
