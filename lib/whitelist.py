@@ -63,7 +63,7 @@ irvar_restricted_whitelist = [
 irvar_custom_whitelist = [
 	'ShiftLight',
 	'ShiftLightBlink',
-	#'DriverCarSLBlinkRPM',
+	'DriverCarSLBlinkRPM',
 ]
 
 irvar_whitelist.extend(irvar_global_whitelist)

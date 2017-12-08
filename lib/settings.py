@@ -157,3 +157,6 @@ class Settings:
 		if api_var is not None and \
 			((api_var in ir_utils.whitelist) or custom_range):
 					self.api_var = api_var
+
+		if self.api_var == 'DriverCarSLBlinkRPM':  # Alias, as listed in the iRacing SDK docs
+			self.api_var = 'ShiftLight'
