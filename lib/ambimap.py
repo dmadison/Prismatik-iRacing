@@ -59,6 +59,7 @@ class AmbiMap:
 			for step, color in enumerate(self.settings.colors):
 				if percent <= (step + 1) * percent_step:
 					return color
+			return self.settings.colors[len(self.settings.colors) - 1] # Out of range
 		elif self.settings.smoothing == True:
 			for step in range(len(self.settings.colors) - 1):
 				current_step = (step + 1) * percent_step
