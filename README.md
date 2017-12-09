@@ -32,6 +32,8 @@ fps: 60
 direction: symmetric
 colors: #00FF00, #FFFF00, #FF0000
 off_color: #000000
+single_color: false
+bidirectional_color: false
 blink_rate: 2.5
 color_smoothing: true
 data_filtering: low
@@ -51,9 +53,11 @@ data_filtering: low
 These options can be customized to your liking, depending on how you want the lights to look.
 
 * **fps:** update rate for the API data and LED frames. *iRacing* API data is limited to a max of 60 fps.
-* **direction:** light-up pattern direction. Options: all, symmetric, clockwise, counter-clockwise.
+* **direction:** light-up pattern direction. Options: all, symmetric, clockwise, counter-clockwise, or bidirectional.
 * **colors:** comma-separated list of RGB colors as [hex triplets](https://en.wikipedia.org/wiki/Web_colors#Hex_triplet). Ordered from low mapped value to high.
 * **off_color:** the 'zero' color that fills the rest of the LEDs. Usually black, but it's available to change if you want to.
+* **single_color:** boolean for whether to use a single color for all LEDs per frame, or whether to use multiple colors mapped based on LED position.
+* **bidirectional_color:** if true, scales the color array so both sides of the bidirectional pattern will display the same colors. If false, allows different colors on either side. Only used with the bidirectional pattern and single color mode.
 * **blink_rate**: blinking speed of the LEDs if they're past the max value, in Hertz. Set to 0 or 'off' to disable blinking entirely.
 * **color_smoothing:** when enabled, adds a linear fade between colors for a smooth transition. If disabled, color transitions are abrupt.
 * **data_filtering:** weight towards the new value for the low-pass filter. Can either be set as a preset (none, low, medium, high) or as a float value from 0 - 1. Smaller values will give smoother but less-responsive results.
