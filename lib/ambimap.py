@@ -79,14 +79,13 @@ class AmbiMap:
 		return self.get_color(percent)
 
 	def map(self, percent):
+		color = self.get_color(percent) if self.settings.single_color else None
+
 		if self.settings.direction == 'bidirectional':  # >1 check breaks this pattern
-			color = None
-			if self.settings.single_color:
+			if self.settings.single_color and self.settings.bidirectional_color:
 				color = self.get_color(abs((percent - 0.5) * 2))
 			self.fill_bidirectional(percent, color)
 			return
-
-		color = self.get_color(percent) if self.settings.single_color else None
 
 		if percent > 1.0 and self.check_blink():
 			self.fill_empty()

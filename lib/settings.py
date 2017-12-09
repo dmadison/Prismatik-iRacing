@@ -45,6 +45,7 @@ class Settings:
 		self.colors = [[0, 255, 0], [255, 255, 0], [255, 0, 0]]  # Green, Yellow, Red
 		self.off_color = [0, 0, 0]
 		self.single_color = False
+		self.bidirectional_color = False
 		self.blink_rate = 2.5  # in Hertz
 		self.smoothing = True
 		self.filtering = 0.6
@@ -132,6 +133,11 @@ class Settings:
 			self.single_color = config.getboolean('User Settings', 'single_color')
 		except (KeyError, configparser.NoSectionError):
 			print("Error parsing config:", "User Settings", "single_color")
+
+		try:
+			self.bidirectional_color = config.getboolean('User Settings', 'bidirectional_color')
+		except (KeyError, configparser.NoSectionError):
+			print("Error parsing config:", "User Settings", "bidirectional_color")
 
 		blink_rate = get_cfg_key(config, 'User Settings', 'blink_rate')
 		if blink_rate is not None:
