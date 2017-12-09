@@ -35,7 +35,7 @@ class Settings:
 		self.api_key = None
 
 		# iRacing API Settings
-		self.apiVar = 'ShiftLight'
+		self.api_var = 'ShiftLight'
 		self.var_min = 0.0
 		self.var_max = 1.0
 
@@ -44,6 +44,8 @@ class Settings:
 		self.direction = 'symmetric'
 		self.colors = [[0, 255, 0], [255, 255, 0], [255, 0, 0]]  # Green, Yellow, Red
 		self.off_color = [0, 0, 0]
+		self.single_color = False
+		self.bidirectional_color = False
 		self.blink_rate = 2.5  # in Hertz
 		self.smoothing = True
 		self.filtering = 0.6
@@ -51,7 +53,7 @@ class Settings:
 		self.parse_config(self.cfg)
 
 	def check_directions(self, direction):
-		directions = ['all', 'symmetric', 'clockwise', 'counter-clockwise']
+		directions = ['all', 'symmetric', 'clockwise', 'counter-clockwise', 'bidirectional']
 		if direction in directions:
 			return True
 		return False
@@ -127,6 +129,16 @@ class Settings:
 		off_color = check_color_hex(get_cfg_key(config, 'User Settings', 'off_color'))
 		self.off_color = off_color if off_color is not None else self.off_color
 
+		try:
+			self.single_color = config.getboolean('User Settings', 'single_color')
+		except (KeyError, configparser.NoSectionError):
+			print("Error parsing config:", "User Settings", "single_color")
+
+		try:
+			self.bidirectional_color = config.getboolean('User Settings', 'bidirectional_color')
+		except (KeyError, configparser.NoSectionError):
+			print("Error parsing config:", "User Settings", "bidirectional_color")
+
 		blink_rate = get_cfg_key(config, 'User Settings', 'blink_rate')
 		if blink_rate is not None:
 			if is_float(blink_rate):
@@ -156,4 +168,7 @@ class Settings:
 		api_var = get_cfg_key(config, 'iRacing', 'var')
 		if api_var is not None and \
 			((api_var in ir_utils.whitelist) or custom_range):
-					self.apiVar = api_var
+					self.api_var = api_var
+
+		if self.api_var == 'DriverCarSLBlinkRPM':  # Alias, as listed in the iRacing SDK docs
+			self.api_var = 'ShiftLight'
