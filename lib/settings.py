@@ -52,7 +52,7 @@ class Settings:
 		self.parse_config(self.cfg)
 
 	def check_directions(self, direction):
-		directions = ['all', 'symmetric', 'clockwise', 'counter-clockwise']
+		directions = ['all', 'symmetric', 'clockwise', 'counter-clockwise', 'bidirectional']
 		if direction in directions:
 			return True
 		return False

@@ -81,7 +81,9 @@ class AmbiMap:
 	def map(self, percent):
 		color = self.get_color(percent) if self.settings.single_color else None
 
-		if percent > 1.0 and self.check_blink():
+		if self.settings.direction == 'bidirectional':  # >1 check breaks this pattern
+			self.fill_bidirectional(percent, color)
+		elif percent > 1.0 and self.check_blink():
 			self.fill_empty()
 		elif self.settings.direction == 'all':
 			self.fill_all(self.get_color(percent))
@@ -147,6 +149,27 @@ class AmbiMap:
 				leds.append(self.__substitute_color(led / self.__num_leds, color))
 			else:
 				leds.append(self.settings.off_color)
+		self.ambilight.setFrame(leds)
+
+	def fill_bidirectional(self, percent, color=None):
+		led_half = self.__num_leds / 2
+		percent_signed = (percent - 0.5) * 2  # Percent rescaled to cover -1.0 / 1.0
+
+		leds = []
+
+		for led in range(0, self.__num_leds):
+			if led < led_half:
+				led_scaled_side = (led_half - led) / led_half  # LED # scaled for n/2 as positive float
+				if percent_signed >= led_scaled_side:
+					leds.append(self.__substitute_color(abs(led_scaled_side), color))
+				else:
+					leds.append(self.settings.off_color)
+			else:
+				led_scaled_side = -((led + 1 - led_half) / led_half)  # LED # scaled for n/2 as negative float
+				if percent_signed <= led_scaled_side:
+					leds.append(self.__substitute_color(abs(led_scaled_side), color))
+				else:
+					leds.append(self.settings.off_color)
 		self.ambilight.setFrame(leds)
 
 	def fill_empty(self):
