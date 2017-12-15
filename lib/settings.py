@@ -91,8 +91,6 @@ class Settings:
 				if color_rgb is not None:
 					colors_new.append(color_rgb)
 			if len(colors_new) == len(colors_temp):  # All colors parsed successfully
-				if len(colors_new) == 1:
-					colors_new.insert(0, [0, 0, 0])  # Blank color to contrast with
 				self.colors = colors_new
 		except ValueError:
 			pass
