@@ -113,10 +113,10 @@ class AmbiMap:
 
 		for led in range(0, self.__num_leds):
 			if led <= led_step:
-				leds.append(self.__substitute_color(led / led_step, color))
+				leds.append(self.__substitute_color(led / led_half, color))
 			elif led >= (self.__num_leds - 1) - led_step:
 				led_inverted = (self.__num_leds - 1) - led
-				leds.append(self.__substitute_color(led_inverted / led_step, color))
+				leds.append(self.__substitute_color(led_inverted / led_half, color))
 			else:
 				leds.append(self.settings.off_color)
 		self.ambilight.setFrame(leds)
