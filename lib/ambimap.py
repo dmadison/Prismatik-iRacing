@@ -52,6 +52,10 @@ class AmbiMap:
 		percent_step = 1.0 / len(self.settings.colors)
 		blend_range = percent_step
 
+
+		if len(self.settings.colors) == 1:
+			return self.settings.colors[0]
+
 		if self.settings.smoothing == False:
 			for step, color in enumerate(self.settings.colors):
 				if percent <= (step + 1) * percent_step:
