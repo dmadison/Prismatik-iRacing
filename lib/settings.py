@@ -129,12 +129,12 @@ class Settings:
 
 		try:
 			self.single_color = config.getboolean('User Settings', 'single_color')
-		except (KeyError, configparser.NoSectionError):
+		except (KeyError, configparser.NoSectionError, configparser.NoOptionError):
 			print("Error parsing config:", "User Settings", "single_color")
 
 		try:
 			self.bidirectional_color = config.getboolean('User Settings', 'bidirectional_color')
-		except (KeyError, configparser.NoSectionError):
+		except (KeyError, configparser.NoSectionError, configparser.NoOptionError):
 			print("Error parsing config:", "User Settings", "bidirectional_color")
 
 		blink_rate = get_cfg_key(config, 'User Settings', 'blink_rate')
@@ -146,7 +146,7 @@ class Settings:
 
 		try:
 			self.smoothing = config.getboolean('User Settings', 'color_smoothing')
-		except (KeyError, configparser.NoSectionError):
+		except (KeyError, configparser.NoSectionError, configparser.NoOptionError):
 			print("Error parsing config:", "User Settings", "color_smoothing")
 
 		data_filtering = get_cfg_key(config, 'User Settings', 'data_filtering')
