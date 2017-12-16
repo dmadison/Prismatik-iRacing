@@ -62,5 +62,8 @@ These options can be customized to your liking, depending on how you want the li
 * **color_smoothing:** when enabled, adds a linear fade between colors for a smooth transition. If disabled, color transitions are abrupt.
 * **data_filtering:** weight towards the new value for the low-pass filter. Can either be set as a preset (none, low, medium, high) or as a float value from 0 - 1. Smaller values will give smoother but less-responsive results.
 
+## Presets
+I've created a few preset configurations for things like the shift light, lap times (splits), and a g-force indicator. You can find these listed in the [presets.md file](presets.md).
+
 ## License
 This plugin is licensed under the terms of the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
