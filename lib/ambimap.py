@@ -52,6 +52,10 @@ class AmbiMap:
 		percent_step = 1.0 / len(self.settings.colors)
 		blend_range = percent_step
 
+
+		if len(self.settings.colors) == 1:
+			return self.settings.colors[0]
+
 		if self.settings.smoothing == False:
 			for step, color in enumerate(self.settings.colors):
 				if percent <= (step + 1) * percent_step:
@@ -113,10 +117,10 @@ class AmbiMap:
 
 		for led in range(0, self.__num_leds):
 			if led <= led_step:
-				leds.append(self.__substitute_color(led / led_step, color))
+				leds.append(self.__substitute_color(led / led_half, color))
 			elif led >= (self.__num_leds - 1) - led_step:
 				led_inverted = (self.__num_leds - 1) - led
-				leds.append(self.__substitute_color(led_inverted / led_step, color))
+				leds.append(self.__substitute_color(led_inverted / led_half, color))
 			else:
 				leds.append(self.settings.off_color)
 		self.ambilight.setFrame(leds)
