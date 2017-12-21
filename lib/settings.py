@@ -41,7 +41,7 @@ class Settings:
 
 		# Plugin Settings
 		self.framerate = 60
-		self.direction = 'symmetric'
+		self.pattern = 'symmetric'
 		self.colors = [[0, 255, 0], [255, 255, 0], [255, 0, 0]]  # Green, Yellow, Red
 		self.off_color = [0, 0, 0]
 		self.single_color = False
@@ -52,9 +52,9 @@ class Settings:
 
 		self.parse_config(self.cfg)
 
-	def check_directions(self, direction):
-		directions = ['all', 'symmetric', 'clockwise', 'counter-clockwise', 'bidirectional']
-		if direction in directions:
+	def check_patterns(self, pattern):
+		patterns = ['all', 'symmetric', 'clockwise', 'counter-clockwise', 'bidirectional']
+		if pattern in patterns:
 			return True
 		return False
 
@@ -118,9 +118,9 @@ class Settings:
 		if fps is not None and is_int(fps):
 			self.framerate = int(fps) if int(fps) <= 60 else 60
 
-		direction = get_cfg_key(config, 'User Settings', 'direction')
-		if direction is not None and self.check_directions(direction):
-			self.direction = direction
+		pattern = get_cfg_key(config, 'User Settings', 'pattern')
+		if pattern is not None and self.check_patterns(pattern):
+			self.pattern = pattern
 
 		self.set_colors(get_cfg_key(config, 'User Settings', 'colors'))
 

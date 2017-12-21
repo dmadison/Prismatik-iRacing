@@ -9,7 +9,7 @@ For each preset, copy the respective config and paste it in your `cfg.ini` file.
 var: ShiftLight
 
 [User Settings]
-direction: symmetric
+pattern: symmetric
 colors: #00FF00, #FFFF00, #FF0000
 blink_rate: 2.5
 ```
@@ -22,7 +22,7 @@ This is the default preset that comes with the plugin. It turns the ambilight in
 var: {see below}
 
 [User Settings]
-direction: clockwise
+pattern: clockwise
 colors: {see below}
 ```
 You can also match the ambilight to your throttle, brake, or clutch inputs just like the HUD. In iRacing the overlay maps these to green, red, and blue respectively. Note that the plugin only works with one value at a time. The variables and colors for each are listed below.
@@ -65,7 +65,7 @@ var_min: 2.0
 var_max: -2.0
 
 [User Settings]
-direction: bidirectional
+pattern: bidirectional
 colors: #FF0000, #00FF00
 single_color: true
 bidirectional_color: false
@@ -90,7 +90,7 @@ var_min: {car specific}
 var_max: {car specific}
 
 [User Settings]
-direction: clockwise
+pattern: clockwise
 colors: #0000FF, #FF0000
 single_color: true
 blink_rate: off
@@ -105,7 +105,7 @@ var_min: -24.5
 var_max: 24.5
 
 [User Settings]
-direction: bidirectional
+pattern: bidirectional
 single_color: true
 bidirectional_color: true
 blink_rate: off

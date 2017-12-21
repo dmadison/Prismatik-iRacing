@@ -29,7 +29,7 @@ var_max: 1.0
 
 [User Settings]
 fps: 60
-direction: symmetric
+pattern: symmetric
 colors: #00FF00, #FFFF00, #FF0000
 off_color: #000000
 single_color: false
@@ -53,7 +53,7 @@ data_filtering: low
 These options can be customized to your liking, depending on how you want the lights to look.
 
 * **fps:** update rate for the API data and LED frames. *iRacing* API data is limited to a max of 60 fps.
-* **direction:** light-up pattern direction. Options: all, symmetric, clockwise, counter-clockwise, or bidirectional.
+* **pattern:** LED mapping pattern. Options: all, symmetric, clockwise, counter-clockwise, or bidirectional.
 * **colors:** comma-separated list of RGB colors as [hex triplets](https://en.wikipedia.org/wiki/Web_colors#Hex_triplet). Ordered from low mapped value to high.
 * **off_color:** the 'zero' color that fills the rest of the LEDs. Usually black, but it's available to change if you want to.
 * **single_color:** boolean for whether to use a single color for all LEDs per frame, or whether to use multiple colors mapped based on LED position.
