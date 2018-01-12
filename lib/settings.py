@@ -27,8 +27,6 @@ from lib.utils import is_int, is_float, get_cfg_key, check_color_hex
 
 class Settings:
 	def __init__(self, configfile):
-		self.cfg = configfile + '.ini'
-
 		# Prismatik API Settings
 		self.host = '127.0.0.1'
 		self.port = 3636
@@ -50,6 +48,11 @@ class Settings:
 		self.smoothing = True
 		self.filtering = 0.6
 
+		# Load Defaults
+		self.parse_config('presets\defaults.ini')
+
+		# Load User Settings
+		self.cfg = configfile + '.ini'
 		self.parse_config(self.cfg)
 
 	def check_patterns(self, pattern):
