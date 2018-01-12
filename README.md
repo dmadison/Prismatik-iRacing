@@ -15,6 +15,8 @@ This plugin allows you to visualize data from iRacing with an ambilight.
 ## Configuration
 Modify the `cfg.ini` files with your settings. This is where you set the Prismatik API login and the variable to poll from iRacing, as well as the pattern and color information for the ambilight.
 
+You can also set a preset in the "User Settings" section. More information on presets is available in [presets.md](presets.md). Note that any user settings in `cfg.ini` will overwrite their preset value.
+
 ```
 [Prismatik]
 # make sure to enable the API server in the Prismatik settings
@@ -28,6 +30,7 @@ var_min: 0.0
 var_max: 1.0
 
 [User Settings]
+preset: ShiftLight
 fps: 60
 pattern: symmetric
 colors: #00FF00, #FFFF00, #FF0000
@@ -51,7 +54,7 @@ data_filtering: low
 
 ### User Settings:
 These options can be customized to your liking, depending on how you want the lights to look.
-
+* **preset:** chosen settings preset. You can find a list of presets [here](presets.md).
 * **fps:** update rate for the API data and LED frames. *iRacing* API data is limited to a max of 60 fps.
 * **pattern:** LED mapping pattern. Options: all, symmetric, clockwise, counter-clockwise, or bidirectional.
 * **colors:** comma-separated list of RGB colors as [hex triplets](https://en.wikipedia.org/wiki/Web_colors#Hex_triplet). Ordered from low mapped value to high.
@@ -62,8 +65,6 @@ These options can be customized to your liking, depending on how you want the li
 * **color_smoothing:** when enabled, adds a linear fade between colors for a smooth transition. If disabled, color transitions are abrupt.
 * **data_filtering:** weight towards the new value for the low-pass filter. Can either be set as a preset (none, low, medium, high) or as a float value from 0 - 1. Smaller values will give smoother but less-responsive results.
 
-## Presets
-I've created a few preset configurations for things like the shift light, lap times (splits), and a g-force indicator. You can find these listed in the [presets.md file](presets.md).
 
 ## License
 This plugin is licensed under the terms of the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).

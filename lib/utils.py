@@ -44,14 +44,6 @@ def is_float(x):
 	except ValueError:
 		return False
 
-def get_cfg_key(config, config_section, config_key):
-	try:
-		var = config[config_section][config_key]
-		return var
-	except(KeyError):
-		print("Error parsing config:", config_section, config_key)
-		return None
-
 
 def check_color_hex(color):
 	if color is None:
