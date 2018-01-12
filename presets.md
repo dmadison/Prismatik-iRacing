@@ -1,9 +1,9 @@
 # iRacing Plugin Presets
-Here are some preset configurations for displaying various iRacing data.
+Here are some preset configurations for displaying various iRacing data. To use one, set the "preset" variable in the "User Settings" section to one of the available options. Any specified settings in the user config file will overwrite the preset's.
 
-For each preset, copy the respective config and paste it in your `cfg.ini` file. Any missing variables will use the plugin's default.
+You can make your own custom presets by saving your config file in the 'presets' folder.
 
-## Shift Light
+## Shift Light (ShiftLight)
 ```
 [iRacing]
 var: ShiftLight
@@ -82,7 +82,7 @@ The data inputs are flipped because the typical ambilight setup runs counter-clo
 
 **Note:** This will *not* change based on your splits selection in iRacing (TAB key).
 
-## Oil / Coolant Temperature
+## Oil / Coolant Temperature (Temperature)
 ```
 [iRacing]
 var: OilTemp
@@ -97,7 +97,9 @@ blink_rate: off
 ```
 Displays the oil temperature or coolant temperature (`WaterTemp`) from blue to red. The range values for what is 'hot' for a given car are not provided by the sim, so you'll need to put in your own values. The temperatures are exposed to the API in Celcius (C).
 
-## G-Force Indicator
+As these values are user and car-specific, the preset only sets the color pattern. It's up to the user to specify the variable and the range in their config file.
+
+## G-Force Indicator (Gforce)
 ```
 [iRacing]
 var: LatAccel
