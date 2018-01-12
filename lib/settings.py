@@ -133,56 +133,56 @@ class Settings:
 		if self.debug_print:
 			print(*args)
 
-	def parse_config(self, cfgName):
+	def parse_config(self, cfg_name):
 		config = configparser.ConfigParser()
-		config.read(cfgName)
+		config.read(cfg_name)
 
 		# Presets
 		if self.preset_applied is not True:  # Avoiding infinite loops
-			preset_name = self.get_cfg_key(config, cfgName, 'User Settings', 'preset')
+			preset_name = self.get_cfg_key(config, cfg_name, 'User Settings', 'preset')
 			self.preset_applied = self.check_presets(preset_name)
 
 		# Prismatik Settings
-		prismatik_host = self.get_cfg_key(config, cfgName, 'Prismatik', 'host')
+		prismatik_host = self.get_cfg_key(config, cfg_name, 'Prismatik', 'host')
 		self.host = prismatik_host if prismatik_host is not None else self.host
 
-		prismatik_port = self.get_cfg_key(config, cfgName, 'Prismatik', 'port')
+		prismatik_port = self.get_cfg_key(config, cfg_name, 'Prismatik', 'port')
 		if prismatik_port is not None and is_int(prismatik_port):
 			self.port = int(prismatik_port)
 
-		prismatik_key = self.get_cfg_key(config, cfgName, 'Prismatik', 'key')
+		prismatik_key = self.get_cfg_key(config, cfg_name, 'Prismatik', 'key')
 		self.api_key = prismatik_key if prismatik_key is not None else self.api_key
 
 		# iRacing Settings
-		self.__parse_iracing(config, cfgName)
+		self.__parse_iracing(config, cfg_name)
 
 		# User Settings
-		fps = self.get_cfg_key(config, cfgName, 'User Settings', 'fps')
+		fps = self.get_cfg_key(config, cfg_name, 'User Settings', 'fps')
 		if fps is not None and is_int(fps):
 			self.framerate = int(fps) if int(fps) <= 60 else 60
 
-		pattern = self.get_cfg_key(config, cfgName, 'User Settings', 'pattern')
+		pattern = self.get_cfg_key(config, cfg_name, 'User Settings', 'pattern')
 		if pattern is not None and self.check_patterns(pattern):
 			self.pattern = pattern
 
-		self.set_colors(self.get_cfg_key(config, cfgName, 'User Settings', 'colors'))
+		self.set_colors(self.get_cfg_key(config, cfg_name, 'User Settings', 'colors'))
 
-		off_color = check_color_hex(self.get_cfg_key(config, cfgName, 'User Settings', 'off_color'))
+		off_color = check_color_hex(self.get_cfg_key(config, cfg_name, 'User Settings', 'off_color'))
 		self.off_color = off_color if off_color is not None else self.off_color
 
 		try:
 			self.single_color = config.getboolean('User Settings', 'single_color')
-			self.__debug_print(cfgName + ":", 'User Settings', 'single_color', "-", self.single_color)
+			self.__debug_print(cfg_name + ":", 'User Settings', 'single_color', "-", self.single_color)
 		except (KeyError, configparser.NoSectionError, configparser.NoOptionError):
-			self.__debug_print("Error parsing", cfgName + ":", "User Settings", "single_color")
+			self.__debug_print("Error parsing", cfg_name + ":", "User Settings", "single_color")
 
 		try:
 			self.bidirectional_color = config.getboolean('User Settings', 'bidirectional_color')
-			self.__debug_print(cfgName + ":", 'User Settings', 'bidirectional_color', "-", self.bidirectional_color)
+			self.__debug_print(cfg_name + ":", 'User Settings', 'bidirectional_color', "-", self.bidirectional_color)
 		except (KeyError, configparser.NoSectionError, configparser.NoOptionError):
-			self.__debug_print("Error parsing", cfgName + ":", "User Settings", "bidirectional_color")
+			self.__debug_print("Error parsing", cfg_name + ":", "User Settings", "bidirectional_color")
 
-		blink_rate = self.get_cfg_key(config, cfgName, 'User Settings', 'blink_rate')
+		blink_rate = self.get_cfg_key(config, cfg_name, 'User Settings', 'blink_rate')
 		if blink_rate is not None:
 			if is_float(blink_rate):
 				self.blink_rate = float(blink_rate)
@@ -191,11 +191,11 @@ class Settings:
 
 		try:
 			self.smoothing = config.getboolean('User Settings', 'color_smoothing')
-			self.__debug_print(cfgName + ":", 'User Settings', 'color_smoothing', "-", self.smoothing)
+			self.__debug_print(cfg_name + ":", 'User Settings', 'color_smoothing', "-", self.smoothing)
 		except (KeyError, configparser.NoSectionError, configparser.NoOptionError):
-			self.__debug_print("Error parsing", cfgName + ":", "User Settings", "color_smoothing")
+			self.__debug_print("Error parsing", cfg_name + ":", "User Settings", "color_smoothing")
 
-		data_filtering = self.get_cfg_key(config, cfgName, 'User Settings', 'data_filtering')
+		data_filtering = self.get_cfg_key(config, cfg_name, 'User Settings', 'data_filtering')
 		if data_filtering is not None:
 			self.set_filtering(data_filtering)
 
