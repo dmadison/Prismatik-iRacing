@@ -103,7 +103,7 @@ class Settings:
 		except ValueError:
 			pass
 
-	def check_presets(self, preset_name):
+	def apply_preset(self, preset_name):
 		if preset_name is None:
 			return
 		elif self.__preset_applied:
@@ -141,7 +141,7 @@ class Settings:
 
 		# Presets
 		preset_name = self.get_cfg_key(config, cfg_name, 'User Settings', 'preset')
-		self.check_presets(preset_name)
+		self.apply_preset(preset_name)
 
 		# Prismatik Settings
 		prismatik_host = self.get_cfg_key(config, cfg_name, 'Prismatik', 'host')
