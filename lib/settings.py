@@ -104,11 +104,13 @@ class Settings:
 		if preset_name is None:
 			return False
 
-		presets = os.listdir('.\presets')
+		preset_directory = '.\presets\\'
+
+		presets = os.listdir(preset_directory)
 		preset_name = preset_name.lower() + '.ini'
 
 		if preset_name in presets:
-			self.parse_config(preset_name)
+			self.parse_config(preset_directory + preset_name)
 			return True
 		else:
 			print("No preset applied")
