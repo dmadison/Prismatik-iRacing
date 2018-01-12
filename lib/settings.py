@@ -53,7 +53,7 @@ class Settings:
 		self.debug_print = False
 
 		# Load Defaults
-		self.preset_applied = False
+		self.__preset_applied = False
 		self.parse_config('presets\defaults.ini')
 
 		# Load User Settings
@@ -106,7 +106,7 @@ class Settings:
 	def check_presets(self, preset_name):
 		if preset_name is None:
 			return
-		elif self.preset_applied:
+		elif self.__preset_applied:
 			self.__debug_print("Preset already applied")
 			return
 
@@ -116,7 +116,7 @@ class Settings:
 		preset_name = preset_name.lower() + '.ini'
 
 		if preset_name in presets:
-			self.preset_applied = True
+			self.__preset_applied = True
 			self.parse_config(preset_directory + preset_name)
 			self.__debug_print("Preset applied:", preset_name)
 		else:
