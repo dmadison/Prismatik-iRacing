@@ -105,7 +105,10 @@ class Settings:
 
 	def check_presets(self, preset_name):
 		if preset_name is None:
-			return False
+			return
+		elif self.preset_applied:
+			self.__debug_print("Preset already applied")
+			return
 
 		preset_directory = '.\presets\\'
 
@@ -113,12 +116,11 @@ class Settings:
 		preset_name = preset_name.lower() + '.ini'
 
 		if preset_name in presets:
+			self.preset_applied = True
 			self.parse_config(preset_directory + preset_name)
 			self.__debug_print("Preset applied:", preset_name)
-			return True
 		else:
 			self.__debug_print("No preset applied")
-			return False
 
 	def get_cfg_key(self, config, config_name, config_section, config_key):
 		try:
@@ -138,9 +140,8 @@ class Settings:
 		config.read(cfg_name)
 
 		# Presets
-		if self.preset_applied is not True:  # Avoiding infinite loops
-			preset_name = self.get_cfg_key(config, cfg_name, 'User Settings', 'preset')
-			self.preset_applied = self.check_presets(preset_name)
+		preset_name = self.get_cfg_key(config, cfg_name, 'User Settings', 'preset')
+		self.check_presets(preset_name)
 
 		# Prismatik Settings
 		prismatik_host = self.get_cfg_key(config, cfg_name, 'Prismatik', 'host')
