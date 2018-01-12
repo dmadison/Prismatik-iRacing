@@ -21,6 +21,7 @@
 #
 
 import configparser
+import os
 import lib.ir_utils as ir_utils
 from lib.utils import is_int, is_float, get_cfg_key, check_color_hex
 
@@ -49,6 +50,7 @@ class Settings:
 		self.filtering = 0.6
 
 		# Load Defaults
+		self.preset_applied = False
 		self.parse_config('presets\defaults.ini')
 
 		# Load User Settings
@@ -98,9 +100,28 @@ class Settings:
 		except ValueError:
 			pass
 
+	def check_presets(self, preset_name):
+		if preset_name is None:
+			return False
+
+		presets = os.listdir('.\presets')
+		preset_name = preset_name.lower() + '.ini'
+
+		if preset_name in presets:
+			self.parse_config(preset_name)
+			return True
+		else:
+			print("No preset applied")
+			return False
+
 	def parse_config(self, cfgName):
 		config = configparser.ConfigParser()
 		config.read(cfgName)
+
+		# Presets
+		if self.preset_applied is not True:  # Avoiding infinite loops
+			preset_name = get_cfg_key(config, 'User Settings', 'preset')
+			self.preset_applied = self.check_presets(preset_name)
 
 		# Prismatik Settings
 		prismatik_host = get_cfg_key(config, 'Prismatik', 'host')
