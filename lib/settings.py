@@ -57,8 +57,7 @@ class Settings:
 
 		# Load User Settings
 		self.cfg = configfile + '.ini'
-		self.parse_preset(self.cfg)
-		self.parse_config(self.cfg)
+		self.parse_config(self.cfg, True)
 
 	def check_patterns(self, pattern):
 		patterns = ['all', 'symmetric', 'clockwise', 'counter-clockwise', 'bidirectional']
@@ -131,17 +130,14 @@ class Settings:
 		if self.debug_print:
 			print(*args)
 
-	def parse_preset(self,  cfg_name):
+	def parse_config(self, cfg_name, parse_preset=False):
 		config = configparser.ConfigParser()
 		config.read(cfg_name)
 
 		# Presets
-		preset_name = self.get_cfg_key(config, cfg_name, 'User Settings', 'preset')
-		self.apply_preset(preset_name)
-
-	def parse_config(self, cfg_name):
-		config = configparser.ConfigParser()
-		config.read(cfg_name)
+		if parse_preset:
+			preset_name = self.get_cfg_key(config, cfg_name, 'User Settings', 'preset')
+			self.apply_preset(preset_name)
 
 		# Prismatik Settings
 		prismatik_host = self.get_cfg_key(config, cfg_name, 'Prismatik', 'host')
