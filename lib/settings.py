@@ -53,11 +53,11 @@ class Settings:
 		self.debug_print = False
 
 		# Load Defaults
-		self.__preset_applied = False
 		self.parse_config('presets\defaults.ini')
 
 		# Load User Settings
 		self.cfg = configfile + '.ini'
+		self.parse_preset(self.cfg)
 		self.parse_config(self.cfg)
 
 	def check_patterns(self, pattern):
@@ -106,9 +106,6 @@ class Settings:
 	def apply_preset(self, preset_name):
 		if preset_name is None:
 			return
-		elif self.__preset_applied:
-			self.__debug_print("Preset already applied")
-			return
 
 		preset_directory = '.\presets\\'
 
@@ -116,7 +113,6 @@ class Settings:
 		preset_name = preset_name.lower() + '.ini'
 
 		if preset_name in presets:
-			self.__preset_applied = True
 			self.parse_config(preset_directory + preset_name)
 			self.__debug_print("Preset applied:", preset_name)
 		else:
@@ -135,13 +131,17 @@ class Settings:
 		if self.debug_print:
 			print(*args)
 
-	def parse_config(self, cfg_name):
+	def parse_preset(self,  cfg_name):
 		config = configparser.ConfigParser()
 		config.read(cfg_name)
 
 		# Presets
 		preset_name = self.get_cfg_key(config, cfg_name, 'User Settings', 'preset')
 		self.apply_preset(preset_name)
+
+	def parse_config(self, cfg_name):
+		config = configparser.ConfigParser()
+		config.read(cfg_name)
 
 		# Prismatik Settings
 		prismatik_host = self.get_cfg_key(config, cfg_name, 'Prismatik', 'host')
