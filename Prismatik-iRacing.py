@@ -50,6 +50,7 @@ if __name__ == '__main__':
 	ambilight = ambimap.AmbiMap(user_settings)
 	ir = ir_utils.iRacer()
 	low_pass = LowPass(user_settings.filtering)
+	print("Prismatik iRacing Plugin: Startup Successful")
 
 	try:
 		while True:
