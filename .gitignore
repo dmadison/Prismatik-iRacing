@@ -4,3 +4,8 @@ __pycache__/
 
 # PyCharm
 .idea/
+
+# PyInstaller
+build/
+dist/
+*.spec
