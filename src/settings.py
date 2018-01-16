@@ -22,8 +22,8 @@
 
 import configparser
 import os
-import lib.ir_utils as ir_utils
-from lib.utils import is_int, is_float, check_color_hex
+import ir_utils
+from utils import is_int, is_float, check_color_hex
 
 
 class Settings:

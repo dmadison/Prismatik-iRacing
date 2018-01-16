@@ -22,10 +22,10 @@
 
 import time
 
-import lib.settings as settings
-import lib.ambimap as ambimap
-import lib.ir_utils as ir_utils
-from lib.utils import LowPass, rescale
+import settings
+import ambimap
+import ir_utils
+from utils import LowPass, rescale
 
 
 def process_frame():
