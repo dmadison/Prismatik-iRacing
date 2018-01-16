@@ -2,15 +2,9 @@
 This plugin allows you to visualize data from iRacing with an ambilight.
 
 ## Installation
-1. Install [Python 3](https://www.python.org/downloads/).
-     * If you're using Windows, you'll need to [add Python to your system's 'PATH' environmental variable.](https://docs.python.org/using/windows.html#excursus-setting-environment-variables)
-3. This plugin relies on the [pyirsdk library](https://github.com/kutu/pyirsdk). The module can be installed via [pip](https://pip.pypa.io/en/stable/quickstart/), which will also install [PyYAML](https://pypi.python.org/pypi/PyYAML).
-```bash
- $ pip install pyirsdk
-```
-4. [Download the plugin](../../archive/master.zip) and unzip it. Place the folder into your `Prismatik\Plugins` directory, located in your user folder. Make sure the folder is named "Prismatik-iRacing" and does not have the branch on the end (e.g. "-master").
-5. Open Prismatik. Switch to the 'Experimental' page and click the checkbox to enable the API server. If you have an authorization key set you'll need to add it to the plugin's `cfg.ini` settings file.
-6. Switch to the 'Plugins' page. At the top, click the "reload plugins" button and then click the checkbox to activate the iRacing plugin. If everything is set up properly the plugin status will switch to "(running)".
+1. [Download the plugin](../../releases/latest) and unzip it. Place the contained folder (*without* the version number) into your `Prismatik\Plugins` directory, located in your user folder.
+2. Open Prismatik. Switch to the 'Experimental' page and click the checkbox to enable the API server. If you have an authorization key set you'll need to add it to the plugin's `cfg.ini` settings file.
+3. Switch to the 'Plugins' page. At the top, click the "reload plugins" button and then click the checkbox to activate the iRacing plugin. If everything is set up properly the plugin status will switch to "(running)".
 
 ## Configuration
 Modify the `cfg.ini` files with your settings. This is where you set the Prismatik API login and the variable to poll from iRacing, as well as the pattern and color information for the ambilight.
