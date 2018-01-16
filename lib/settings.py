@@ -107,6 +107,9 @@ class Settings:
 			return
 
 		preset_directory = '.\presets\\'
+		if not os.path.isdir(preset_directory):
+			self.__debug_print("Preset directory not found")
+			return
 
 		presets = os.listdir(preset_directory)
 		preset_name = preset_name.lower() + '.ini'
