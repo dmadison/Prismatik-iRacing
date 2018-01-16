@@ -52,7 +52,19 @@ class Settings:
 		# Debug Settings
 		self.debug_print = False
 
-		# Load Defaults
+		# Assign Preset Directory Path
+		current_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), 'presets'))
+		parent_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'presets'))
+
+		if os.path.isdir(current_directory):
+			self.__preset_dir = current_directory  # Used for the compiled version
+		elif os.path.isdir(parent_directory) and os.path.isfile(parent_directory + '\defaults.ini'):
+			self.__preset_dir = parent_directory  # Used for development, with 'src' file structure
+		else:
+			self.__preset_dir = None
+		self.__debug_print("Preset Path:", self.__preset_dir)
+
+		# Load Presets
 		self.parse_config('presets\defaults.ini')
 
 		# Load User Settings
@@ -103,19 +115,14 @@ class Settings:
 			pass
 
 	def apply_preset(self, preset_name):
-		if preset_name is None:
+		if preset_name is None or self.__preset_dir is None:
 			return
 
-		preset_directory = '.\presets\\'
-		if not os.path.isdir(preset_directory):
-			self.__debug_print("Preset directory not found")
-			return
-
-		presets = os.listdir(preset_directory)
+		presets = os.listdir(self.__preset_dir)
 		preset_name = preset_name.lower() + '.ini'
 
 		if preset_name in presets:
-			self.parse_config(preset_directory + preset_name)
+			self.parse_config(os.path.join(self.__preset_dir, preset_name))
 			self.__debug_print("Preset applied:", preset_name)
 		else:
 			self.__debug_print("No preset applied")
