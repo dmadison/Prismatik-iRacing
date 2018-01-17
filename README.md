@@ -9,7 +9,7 @@ This plugin allows you to visualize data from iRacing with an ambilight.
 ## Configuration
 Modify the `cfg.ini` files with your settings. This is where you set the Prismatik API login and the variable to poll from iRacing, as well as the pattern and color information for the ambilight.
 
-You can also set a preset in the "User Settings" section. More information on presets is available in [presets.md](presets.md). Note that any user settings in `cfg.ini` will overwrite their preset value.
+You can also set a preset in the "User Settings" section. More information on presets is available in [the presets README](presets/README.md). Note that any user settings in `cfg.ini` will overwrite their preset value.
 
 ```
 [Prismatik]

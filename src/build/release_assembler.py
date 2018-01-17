@@ -106,7 +106,7 @@ user_config.copy()
 print("Copied cfg.ini...")
 presets.copy()
 print("Copied presets folder...")
-os.remove(os.path.join(presets.destination, "presets.md"))
+os.remove(os.path.join(presets.destination, "README.md"))
 print("Removed preset markdown file...")
 
 # Modify and write new plugin configuration
