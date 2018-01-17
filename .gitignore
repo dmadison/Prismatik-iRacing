@@ -11,4 +11,5 @@ src/dist/*
 
 # Build Files
 src/release-temp/*
+src/build/*.zip
 src/build/*/*
