@@ -57,9 +57,9 @@ class Settings:
 		parent_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'presets'))
 
 		if os.path.isdir(current_directory):
-			self.__preset_dir = current_directory  # Used for the compiled version
+			self.__preset_dir = current_directory  # Used for the one-file version
 		elif os.path.isdir(parent_directory) and os.path.isfile(parent_directory + '\defaults.ini'):
-			self.__preset_dir = parent_directory  # Used for development, with 'src' file structure
+			self.__preset_dir = parent_directory  # Used for development, and one-directory versions
 		else:
 			self.__preset_dir = None
 		self.__debug_print("Preset Path:", self.__preset_dir)
