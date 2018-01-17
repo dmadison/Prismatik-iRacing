@@ -31,7 +31,7 @@ import os
 
 # Set filenames
 plugin_config_name = "Prismatik-iRacing-source.ini"
-version_file_name = "version.py"
+version_file_name = "version_info.py"
 
 # Set up common paths
 current_dir = os.path.abspath(os.path.dirname(__file__))
