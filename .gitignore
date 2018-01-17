@@ -6,10 +6,9 @@ __pycache__/
 .idea/
 
 # PyInstaller
-src/build/*
 src/dist/*
 *.spec
 
 # Build Files
-!src/build/release_assembler.py
 src/release-temp/*
+src/build/*/*
