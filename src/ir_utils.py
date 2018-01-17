@@ -21,7 +21,7 @@
 #
 
 import irsdk
-from lib.whitelist import irvar_whitelist as whitelist
+from whitelist import irvar_whitelist as whitelist
 
 
 class iRacer:

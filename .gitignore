@@ -4,3 +4,12 @@ __pycache__/
 
 # PyCharm
 .idea/
+
+# PyInstaller
+src/dist/*
+*.spec
+
+# Build Files
+src/release-temp/*
+src/build/*.zip
+src/build/*/*

@@ -21,8 +21,8 @@
 #
 
 import time
-import lib.lightpack as lightpack
-from lib.utils import linear_blend
+import lightpack as lightpack
+from utils import linear_blend
 
 
 class AmbiMap:
