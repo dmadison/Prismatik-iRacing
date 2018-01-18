@@ -24,7 +24,7 @@ After getting the Python code to work on its own, you might wish to bundle your 
 3. Use the following command to build the executable:
 
    ```batch
-   pyinstaller Prismatik-iRacing.py --onedir --noconsole --icon ../icons/icon.ico --version-file version_info.py
+   pyinstaller Prismatik-iRacing.py --onedir --noconsole --icon ../icons/icon.ico --version-file build/version_info.py
    ```
    This will build the a standalone executable using the program's icon and the Windows-specific [versioning information](https://msdn.microsoft.com/en-us/library/ms646997.aspx). You can change `--onedir` to `--onefile` if you'd like to build a single executable, but be aware that this won't work properly if activated via Prismatik (see [#11](https://github.com/dmadison/Prismatik-iRacing/issues/11)). You can remove the `--noconsole` option if you would like to see the debug information. You can find more information on build flags in [the PyInstaller manual](https://pythonhosted.org/PyInstaller/usage.html).
 4. If you want to launch the executable via the Prismatik plugins manager, you'll need to modify the 'Prismatik-iRacing-source.ini' file from the repository to point to your newly created executable, rather than to the Python program.
