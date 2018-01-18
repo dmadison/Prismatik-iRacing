@@ -3,13 +3,13 @@ This plugin allows you to visualize data from iRacing with an ambilight.
 
 ## Installation
 1. [Download the plugin](../../releases/latest) and unzip it. Place the contained folder (*without* the version number) into your `Prismatik\Plugins` directory, located in your user folder.
-2. Open Prismatik. Switch to the 'Experimental' page and click the checkbox to enable the API server. If you have an authorization key set you'll need to add it to the plugin's `cfg.ini` settings file.
+2. Open Prismatik. Switch to the 'Experimental' page and click the checkbox to enable the API server. If you have an authorization key set you'll need to add it to the plugin's `config.ini` settings file.
 3. Switch to the 'Plugins' page. At the top, click the "reload plugins" button and then click the checkbox to activate the iRacing plugin. If everything is set up properly the plugin status will switch to "(running)".
 
 ## Configuration
-Modify the `cfg.ini` files with your settings. This is where you set the Prismatik API login and the variable to poll from iRacing, as well as the pattern and color information for the ambilight.
+Modify the `config.ini` file with your settings. This is where you set the Prismatik API login and the variable to poll from iRacing, as well as the pattern and color information for the ambilight.
 
-You can also set a preset in the "User Settings" section. More information on presets is available in [the presets README](presets/README.md). Note that any user settings in `cfg.ini` will overwrite their preset value.
+You can also set a preset in the "User Settings" section. More information on presets is available in [the presets README](presets/README.md). Note that any user settings in `config.ini` will overwrite their preset value.
 
 ```
 [Prismatik]

@@ -46,7 +46,7 @@ def framerate_limiter():
 
 
 if __name__ == '__main__':
-	user_settings = settings.Settings('cfg')
+	user_settings = settings.Settings('config')
 	ambilight = ambimap.AmbiMap(user_settings)
 	ir = ir_utils.iRacer()
 	low_pass = LowPass(user_settings.filtering)
