@@ -2,7 +2,7 @@
 # Project     Prismatik - iRacing Plugin
 # @author     David Madison
 # @link       github.com/dmadison/Prismatik-iRacing
-# @license    GPLv3 - Copyright (c) 2017 David Madison
+# @license    GPLv3 - Copyright (c) 2018 David Madison
 #
 # This file is part of the Prismatik - iRacing Plugin.
 #
@@ -77,7 +77,7 @@ class CopyPath:
 dist = CopyPath(os.path.join('src', 'dist', build_name), 'dist', True)
 icon = CopyPath(os.path.join('icons', 'icon.png'), os.path.join('dist', 'icon.png'))
 presets = CopyPath('presets', 'presets', True)
-user_config = CopyPath(os.path.join('src', 'cfg.ini'), 'cfg.ini')
+user_config = CopyPath('config.ini', 'config.ini')
 plugin_config = CopyPath('Prismatik-iRacing-source.ini', build_name + '.ini')
 
 # Check existence of all required files

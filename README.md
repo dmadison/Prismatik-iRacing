@@ -1,15 +1,22 @@
 # iRacing Plugin for Prismatik
-This plugin allows you to visualize data from iRacing with an ambilight.
+![Prismatik-iRacing-Feature](https://i.imgur.com/FN3yx5b.jpg)
+This plugin allows you to visualize data from iRacing with an ambilight. It connects Prismatik to the iRacing API, enabling you to visualize information from the simulation in real-time. In the image above, the ambilight is acting as a shift light.
+
+You can edit the configuration file to change the the mapped variable, the range, pattern, colors, and more. There are a number of presets available for common mappings such as shift lights or throttle/brake input, and you can make your own by saving your configuration file to the `presets` folder.
+
+#### More Information:
+[Blog Post](http://www.partsnotincluded.com/programming/iracing-plugin-for-prismatik)\
+[YouTube Demo](https://www.youtube.com/watch?v=3TQP2Cu5w0k)
 
 ## Installation
 1. [Download the plugin](../../releases/latest) and unzip it. Place the contained folder (*without* the version number) into your `Prismatik\Plugins` directory, located in your user folder.
-2. Open Prismatik. Switch to the 'Experimental' page and click the checkbox to enable the API server. If you have an authorization key set you'll need to add it to the plugin's `cfg.ini` settings file.
+2. Open Prismatik. Switch to the 'Experimental' page and click the checkbox to enable the API server. If you have an authorization key set you'll need to add it to the plugin's `config.ini` settings file.
 3. Switch to the 'Plugins' page. At the top, click the "reload plugins" button and then click the checkbox to activate the iRacing plugin. If everything is set up properly the plugin status will switch to "(running)".
 
 ## Configuration
-Modify the `cfg.ini` files with your settings. This is where you set the Prismatik API login and the variable to poll from iRacing, as well as the pattern and color information for the ambilight.
+Modify the `config.ini` file with your settings. This is where you set the Prismatik API login and the variable to poll from iRacing, as well as the pattern and color information for the ambilight.
 
-You can also set a preset in the "User Settings" section. More information on presets is available in [the presets README](presets/README.md). Note that any user settings in `cfg.ini` will overwrite their preset value.
+You can also set a preset in the "User Settings" section. More information on presets is available in [the presets README](presets/README.md). Note that any user settings in `config.ini` will overwrite their preset value.
 
 ```
 [Prismatik]
@@ -59,6 +66,8 @@ These options can be customized to your liking, depending on how you want the li
 * **color_smoothing:** when enabled, adds a linear fade between colors for a smooth transition. If disabled, color transitions are abrupt.
 * **data_filtering:** weight towards the new value for the low-pass filter. Can either be set as a preset (none, low, medium, high) or as a float value from 0 - 1. Smaller values will give smoother but less-responsive results.
 
+## Disclaimer
+This is an unofficial plugin. The author is not affiliated with or supported by iRacing.com Motorsport Simulations.
 
 ## License
 This plugin is licensed under the terms of the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).

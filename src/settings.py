@@ -52,24 +52,43 @@ class Settings:
 		# Debug Settings
 		self.debug_print = False
 
-		# Assign Preset Directory Path
-		current_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), 'presets'))
-		parent_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'presets'))
+		# Set Search Directory Paths
+		current_directory = os.path.abspath(os.path.dirname(__file__))
+		parent_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 
-		if os.path.isdir(current_directory):
-			self.__preset_dir = current_directory  # Used for the one-file version
-		elif os.path.isdir(parent_directory) and os.path.isfile(parent_directory + '\defaults.ini'):
-			self.__preset_dir = parent_directory  # Used for development, and one-directory versions
+		# Set Preset Directory
+		preset_current_dir = os.path.join(current_directory, 'presets')
+		preset_parent_dir = os.path.join(parent_directory, 'presets')
+
+		if os.path.isdir(preset_current_dir):
+			self.__preset_dir = preset_current_dir  # Used for the one-file version
+		elif os.path.isdir(preset_parent_dir) and os.path.isfile(preset_parent_dir + '\defaults.ini'):
+			self.__preset_dir = preset_parent_dir  # Used for development and one-directory versions
 		else:
 			self.__preset_dir = None
 		self.__debug_print("Preset Path:", self.__preset_dir)
 
-		# Load Presets
-		self.parse_config('presets\defaults.ini')
+		# Load Default Settings
+		self.apply_preset('defaults')
+
+		# Set User Config File Location
+		config_current_dir = os.path.join(current_directory, configfile + '.ini')
+		config_parent_dir = os.path.join(parent_directory, configfile + '.ini')
+
+		if os.path.isfile(config_current_dir):
+			self.config = config_current_dir  # Used for the one-file version
+			self.parse_config(self.config, True)
+		elif os.path.isfile(config_parent_dir):
+			self.config = config_parent_dir  # Used for development and one-directory versions
+			self.parse_config(self.config, True)
+		else:
+			self.config = None
+		self.__debug_print("Config Path:", self.config)
 
 		# Load User Settings
-		self.cfg = configfile + '.ini'
-		self.parse_config(self.cfg, True)
+		if self.config is not None:
+			self.parse_config(self.config, True)
+
 
 	def check_patterns(self, pattern):
 		patterns = ['all', 'symmetric', 'clockwise', 'counter-clockwise', 'bidirectional']
