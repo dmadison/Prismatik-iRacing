@@ -1,6 +1,12 @@
 # iRacing Plugin for Prismatik
 ![Prismatik-iRacing-Feature](https://i.imgur.com/FN3yx5b.jpg)
-This plugin allows you to visualize data from iRacing with an ambilight.
+This plugin allows you to visualize data from iRacing with an ambilight. It connects Prismatik to the iRacing API, enabling you to visualize information from the simulation in real-time. In the image above, the ambilight is acting as a shift light.
+
+You can edit the configuration file to change the the mapped variable, the range, pattern, colors, and more. There are a number of presets available for common mappings such as shift lights or throttle/brake input, and you can make your own by saving your configuration file to the `presets` folder.
+
+#### More Information:
+[Blog Post](http://www.partsnotincluded.com/programming/iracing-plugin-for-prismatik)\
+[YouTube Demo](https://www.youtube.com/watch?v=3TQP2Cu5w0k)
 
 ## Installation
 1. [Download the plugin](../../releases/latest) and unzip it. Place the contained folder (*without* the version number) into your `Prismatik\Plugins` directory, located in your user folder.
