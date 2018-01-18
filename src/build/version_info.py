@@ -22,8 +22,8 @@
 
 VSVersionInfo(
   ffi=FixedFileInfo(
-    filevers=(0, 2, 3, 0),
-    prodvers=(0, 2, 3, 0),
+    filevers=(0, 2, 4, 0),
+    prodvers=(0, 2, 4, 0),
     mask=0x3f,     # Mask for valid flags
     flags=0x0,     # Compiler flags. None valid.
     OS=0x040004,   # Designed for Windows NT, 32-bit OS
@@ -38,11 +38,11 @@ VSVersionInfo(
         u'040904B0', # U.S. English / Unicode
         [StringStruct(u'CompanyName', u''),
         StringStruct(u'FileDescription', u'iRacing Plugin for Prismatik'),
-        StringStruct(u'FileVersion', u'0.2.3.0'),
+        StringStruct(u'FileVersion', u'0.2.4.0'),
 		StringStruct(u'InternalName', u'Prismatik-iRacing'),
         StringStruct(u'LegalCopyright', u'\xa9 David Madison 2018'),
         StringStruct(u'ProductName', u'iRacing Plugin for Prismatik'),
-        StringStruct(u'ProductVersion', u'0.2.3.0')])
+        StringStruct(u'ProductVersion', u'0.2.4.0')])
       ]), 
     VarFileInfo([VarStruct(u'Translation', [1033, 1200])]) # U.S. English / Unicode
   ]
