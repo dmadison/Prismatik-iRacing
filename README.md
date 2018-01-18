@@ -1,4 +1,5 @@
 # iRacing Plugin for Prismatik
+![Prismatik-iRacing-Feature](https://i.imgur.com/FN3yx5b.jpg)
 This plugin allows you to visualize data from iRacing with an ambilight.
 
 ## Installation
