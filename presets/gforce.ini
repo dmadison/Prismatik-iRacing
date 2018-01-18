@@ -2,7 +2,7 @@
 # Project     Prismatik - iRacing Plugin
 # @author     David Madison
 # @link       github.com/dmadison/Prismatik-iRacing
-# @license    GPLv3 - Copyright (c) 2017 David Madison
+# @license    GPLv3 - Copyright (c) 2018 David Madison
 #
 # This file is part of the Prismatik - iRacing Plugin.
 #
