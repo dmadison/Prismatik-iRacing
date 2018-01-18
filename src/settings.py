@@ -64,8 +64,8 @@ class Settings:
 			self.__preset_dir = None
 		self.__debug_print("Preset Path:", self.__preset_dir)
 
-		# Load Presets
-		self.parse_config('presets\defaults.ini')
+		# Load Default Settings
+		self.apply_preset('defaults')
 
 		# Load User Settings
 		self.cfg = configfile + '.ini'
